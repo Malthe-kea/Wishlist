@@ -1,6 +1,7 @@
 package org.example.wishlist.controller;
 
 
+import org.example.wishlist.model.User;
 import org.example.wishlist.model.UserWishlistDTO;
 
 
@@ -29,6 +30,13 @@ public class WishlistController {
     public WishlistController(WishlistService wishlistService) {
         this.wishlistService = wishlistService;
     }
+    @GetMapping("/")
+    public String welcome(Model model) {
+        model.addAttribute("users", wishlistService.getAllUsers());
+        model.addAttribute("role", wishlistService.getAllRoles());
+        return "loginpage";
+    }
+
     @GetMapping("/addWish")
     public String addWish(Model model) {
         WishTagDTO wishTagDTO = new WishTagDTO();
@@ -43,9 +51,10 @@ public class WishlistController {
         return "redirect:/show-wishlist";
     }
 
-    @GetMapping("/")
-    public String showAllDTOWishes(Model model) {
+    @GetMapping("/showallwishes")
+    public String showAllDTOWishes(@ModelAttribute User user, Model model) {
         List<WishTagDTO> wishes = wishlistService.getAllDTOWishes();
+        model.addAttribute("userid", user.getUser_id());
         //
         return "show-wishlist";
     }

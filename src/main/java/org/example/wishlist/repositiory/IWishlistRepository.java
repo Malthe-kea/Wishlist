@@ -8,9 +8,14 @@ public interface IWishlistRepository {
     //CREATE
     void addWish(WishTagDTO wishTagDTO, UserWishlistDTO uw); //Tilføj et ønske til en ønskeliste
 
-    public UserWishlistDTO getUserwishlistById(int wishlist_id);
+    public UserWishlistDTO getUserwishlistByWishlistId(int wishlist_id);
 
     //READ
+    public List<User> getAllUsers();
+
+    public UserWishlistDTO getUserwishlistByUserId(int user_id);
+
+    public List<Role> getAllRoles();
 
    List<WishTagDTO> getAllDTOWishes();
 
