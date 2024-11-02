@@ -6,25 +6,20 @@
     <link th:href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <h1>Hi and welcome! Choose your user:</h1>
-    <form action="#" th:action="@{/showallwishes}" class="form-label" th:object="${user}" method="post">
-    <div class="options users">
-        <th:block th:each="user1 : ${users}">
-            <input type="checkbox" th:field="*{user_id}" th:value="${user1.user_id}"/>
-            <label th:for="${user1}" th:text="${user1.name}"></label><br>
-        </th:block>
-    </div>
-<!--
-    <h2>Choose your role:</h2>
-    <div class="options roles">
-        <th:block th:each="role : ${role}">
-            <input type="checkbox" th:field="*{role}" th:value="${role}"/>
-            <label th:for="${role}" th:text="${role.role_name}"></label><br>
-        </th:block>
-    </div-->
-    <button type="submit">Log in</button>
-    </form>
-</div>
+<form action="/login" method="get">
+    <label for="userId">Vælg bruger:</label>
+    <select name="userId" id="userId">
+        <!-- Iterer over brugere -->
+        <option th:each="user : ${users}" th:value="${user.user_id}" th:text="${user.name}"></option>
+    </select>
+
+    <label for="role">Vælg rolle:</label>
+    <select name="role" id="role">
+        <!-- Iterér over roller -->
+        <option th:each="role : ${roles}" th:value="${role.role_id}" th:text="${role.role_name}"></option>
+    </select>
+
+    <button type="submit">Log ind</button>
+</form>
 </body>
 </html>

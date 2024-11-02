@@ -24,19 +24,20 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class WishlistController {
-//
+    //
     private final WishlistService wishlistService;
 
     public WishlistController(WishlistService wishlistService) {
         this.wishlistService = wishlistService;
     }
+
     @GetMapping("/")
     public String welcome(Model model) {
         model.addAttribute("users", wishlistService.getAllUsers());
-        model.addAttribute("role", wishlistService.getAllRoles());
-        model.addAttribute("userId", -1);
+        model.addAttribute("roles", wishlistService.getAllRoles());
         return "loginpage";
     }
+
 
     @GetMapping("/addWish")
     public String addWish(Model model) {
@@ -45,6 +46,7 @@ public class WishlistController {
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
         return "addWish";
     }
+
     @PostMapping("/addWish")
     public String addAttraction(@ModelAttribute WishTagDTO wishtagdto, Model model) throws Exception {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistById(wishtagdto.getWishlist_id());
@@ -52,15 +54,20 @@ public class WishlistController {
         return "redirect:/show-wishlist";
     }
 
-//    @GetMapping("/showallwishes")
-//    public String showAllDTOWishes(@ModelAttribute User user, Model model) {
-////        List<WishTagDTO> wishes = wishlistService.getAllDTOWishes();
-//        return "show-wishlist";
-//    }
-    @PostMapping("/showallwishes")
+    @GetMapping("/login")
+    public String login(@RequestParam("role") String role, @RequestParam("userId") int userId, Model model) {
+        System.out.println("Received userId: " + userId);
+        model.addAttribute("role", role);
+        model.addAttribute("userId", userId);
+        return "redirect:/showallwishes";
+    }
+
+
+    @GetMapping("/showallwishes")
     public String showAllDTOWishes(@ModelAttribute User user, Model model) {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(user.getUser_id());
         model.addAttribute("userWishlistDTO", userWishlistDTO);
+        model.addAttribute("user", user.getName());
         return "show-wishlist";
     }
 

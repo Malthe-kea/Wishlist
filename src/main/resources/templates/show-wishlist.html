@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <title>Your wishlist</title>
     <link rel="stylesheet" href="stylesheet.css">
+    <title>Wishlist</title>
 </head>
 <body>
-<h1>Hej dette er en test slet mig efter</h1>
-
+<span th:text="${user}"></span>
+<ul>
+    <li th:each="wish : ${userWishlistDTO.wishes}">
+        <span th:text="${wish.wish_name}">Wish name</span>:
+        <span th:text="${wish.description}">Description</span>
+    </li>
+</ul>
 </body>
 </html>
