@@ -1,7 +1,7 @@
 package org.example.wishlist.model;
 //he
 public class User {
-    private int user_id;
+    private Integer user_id;
     private String name;
 
     public User(int user_id, String name) {
