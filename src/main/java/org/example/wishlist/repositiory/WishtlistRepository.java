@@ -42,7 +42,7 @@ public class WishtlistRepository implements IWishlistRepository {
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlString);
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 int id = resultSet.getInt("user_id");
                 allUsers.add(new User(id, name));
@@ -52,6 +52,7 @@ public class WishtlistRepository implements IWishlistRepository {
         }
         return allUsers;
     }
+
     @Override
     public List<Role> getAllRoles() {
         List<Role> allRoles = new ArrayList<>();
@@ -59,7 +60,7 @@ public class WishtlistRepository implements IWishlistRepository {
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlString);
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 String name = resultSet.getString("role_name");
                 int id = resultSet.getInt("role_id");
                 allRoles.add(new Role(id, name));
@@ -258,7 +259,22 @@ public class WishtlistRepository implements IWishlistRepository {
 
     @Override
     public List<Tag> getTags(int wish_id) {
-        return List.of();
+        List<Tag> tags = new ArrayList<>();
+        String sqlString = "SELECT t.tag_id, t.tag_name FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
+        try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlString);
+            preparedStatement.setInt(1, wish_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int tagId = resultSet.getInt("tag_id");
+                String tagName = resultSet.getString("tag_name");
+                tags.add(new Tag(tagName, tagId));
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception occurred", e);
+        }
+        return tags;
     }
 
     @Override
@@ -320,6 +336,7 @@ public class WishtlistRepository implements IWishlistRepository {
     public void giveWish(int wish_id) {
 
     }
+
     @Override
     public UserWishlistDTO getUserwishlistByUserId(int user_id) {
         String sqlString = "SELECT t.wishlist_name, t.wishlist_id, t.user_id, t.role_id, r.role_name FROM wishlist t JOIN role r ON r.role_id = t.role_id WHERE r.role_name ='giftwisher' AND t.user_id = ?";

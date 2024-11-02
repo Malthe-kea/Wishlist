@@ -51,4 +51,8 @@ public class WishlistService {
     public List<Tag> getAvaliableTags() {
         return wishlistRepository.getAvaliableTags();
     }
+
+    public List<Tag> getTags(int wish_id) {
+        return wishlistRepository.getTags(wish_id);
+    }
 }
