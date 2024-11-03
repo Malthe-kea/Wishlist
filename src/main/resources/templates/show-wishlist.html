@@ -17,7 +17,18 @@
         <span th:text="${wish.wish_name}">Wish name</span>:
         <span th:text="${wish.price} 'DKK " >Price</span>
         <span th:text="${wish.description}">Description</span>
+        <span th:text="${wish.price}">price</span>
     </li>
+    <p>Tags:</p>
+    <div th:each="wishtagDTO : ${userWishlistDTO.wishes}">
+        <div th:each="tag : ${wishtagDTO.tagIds}">
+            <div th:each="avaliabletag : ${avaliableTags}">
+                <div th:if="${tag == avaliabletag.tag_id}">
+                    <p><span th:text="${avaliabletag.tag_name}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </ul>
 </body>
 </html>
