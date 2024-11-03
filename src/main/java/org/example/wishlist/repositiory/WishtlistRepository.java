@@ -261,7 +261,22 @@ public class WishtlistRepository implements IWishlistRepository {
 
     @Override
     public List<Tag> getTags(int wish_id) {
-        return List.of();
+        List<Tag> tags = new ArrayList<>();
+        String sqlString = "SELECT t.tag_id, t.tag_name FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
+        try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlString);
+            preparedStatement.setInt(1, wish_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int tagId = resultSet.getInt("tag_id");
+                String tagName = resultSet.getString("tag_name");
+                tags.add(new Tag(tagName, tagId));
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception occurred", e);
+        }
+        return tags;
     }
 
     @Override
