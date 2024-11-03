@@ -7,7 +7,11 @@
     <title>Wishlist</title>
 </head>
 <body>
-<span th:text="${user}"></span>
+<div>
+    <header>
+        <h1>This is your wishlist <span th:text="${user}"></span></h1>
+    </header>
+</div>
 <ul>
     <li th:each="wish : ${userWishlistDTO.wishes}">
         <span th:text="${wish.wish_name}">Wish name</span>:

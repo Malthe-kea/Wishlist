@@ -42,7 +42,7 @@ public class WishtlistRepository implements IWishlistRepository {
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlString);
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 int id = resultSet.getInt("user_id");
                 allUsers.add(new User(id, name));
@@ -52,6 +52,7 @@ public class WishtlistRepository implements IWishlistRepository {
         }
         return allUsers;
     }
+
     @Override
     public List<Role> getAllRoles() {
         List<Role> allRoles = new ArrayList<>();
@@ -59,7 +60,7 @@ public class WishtlistRepository implements IWishlistRepository {
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlString);
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 String name = resultSet.getString("role_name");
                 int id = resultSet.getInt("role_id");
                 allRoles.add(new Role(id, name));
@@ -100,6 +101,7 @@ public class WishtlistRepository implements IWishlistRepository {
         List<Integer> tagIds = new ArrayList<>();
         UserWishlistDTO userWishlistDTO = null;
 
+
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             PreparedStatement statement = con.prepareStatement(sqlString);
             statement.setInt(1, wishlist_id);
@@ -118,6 +120,7 @@ public class WishtlistRepository implements IWishlistRepository {
                 int user_id = resultSet.getInt("user_id");
                 int role_id = resultSet.getInt("role_id");
                 String role_name = resultSet.getString("role_name");
+                System.out.println("list id fra getuserwishlistbyuser id first sql statement" + list_id);
 
                 ArrayList<WishTagDTO> wishTagDTOS = new ArrayList<>();
                 List<Integer> tags = new ArrayList<>();
@@ -317,52 +320,81 @@ public class WishtlistRepository implements IWishlistRepository {
     }
 
     @Override
+    public String getUserNameById(int userId) {
+        String sql = "SELECT name FROM user WHERE user_id=?";
+        String user_name = null;
+        try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user_name = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            logger.error("SQL exception occurred", e);
+
+        }
+        return user_name;
+    }
+
+    @Override
     public void giveWish(int wish_id) {
 
     }
+
     @Override
     public UserWishlistDTO getUserwishlistByUserId(int user_id) {
         String sqlString = "SELECT t.wishlist_name, t.wishlist_id, t.user_id, t.role_id, r.role_name FROM wishlist t JOIN role r ON r.role_id = t.role_id WHERE r.role_name ='giftwisher' AND t.user_id = ?";
-        String sqlwishes = "SELECT wish_name, description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
+        String sqlwishes = "SELECT wish_name, wish_description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
         String sqlTags = "SELECT tag_id FROM wish_tag WHERE wish_id=?";
-
+        System.out.println("recived userid in getuserwishlistbyuserid " + user_id + "");
         List<Integer> tagIds = new ArrayList<>();
-        UserWishlistDTO userWishlistDTO = null;
-
+        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+        ArrayList<WishTagDTO> wishTagDTOS = new ArrayList<>();
+        WishTagDTO wishTagDTO;
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             PreparedStatement statement = con.prepareStatement(sqlString);
             statement.setInt(1, user_id);
 
-            PreparedStatement statement2 = con.prepareStatement(sqlwishes);
-            statement.setInt(1, user_id);
 
             PreparedStatement statement3 = con.prepareStatement(sqlTags);
 
             ResultSet resultSet = statement.executeQuery();
-            ResultSet resultSet2 = statement2.executeQuery();
 
             if (resultSet.next()) {
-                String wishlist_name = resultSet.getString("name");
+                String wishlist_name = resultSet.getString("wishlist_name");
                 int wishlist_id = resultSet.getInt("wishlist_id");
                 int role_id = resultSet.getInt("role_id");
                 String role_name = resultSet.getString("role_name");
 
-                ArrayList<WishTagDTO> wishTagDTOS = new ArrayList<>();
-                List<Integer> tags = new ArrayList<>();
+                System.out.println("fra getuserwishlistbyuserid har jeg wishlistId: " + wishlist_id);
+
+                PreparedStatement statement2 = con.prepareStatement(sqlwishes);
+                statement2.setInt(1, wishlist_id);
+                ResultSet resultSet2 = statement2.executeQuery();
+
+                wishTagDTOS = new ArrayList<>();
+
                 while (resultSet2.next()) {
                     String wish_name = resultSet2.getString("wish_name");
-                    String description = resultSet.getString("description");
+                    String wish_description = resultSet2.getString("wish_description");
                     int price = resultSet2.getInt("price");
                     int wish_id = resultSet2.getInt("wish_id");
+
+                    System.out.println("fra getuserwishlistbyuserid har jeg wish_id: " + wish_id);
+
                     statement3.setInt(1, wish_id);
                     ResultSet resultSet3 = statement3.executeQuery();
                     while (resultSet3.next()) {
                         int tagid = resultSet3.getInt("tag_id");
-                        tags.add(tagid);
+                        tagIds.add(tagid);
                     }
-                    wishTagDTOS.add(new WishTagDTO(wish_name, description, price, wish_id, tags, wishlist_id));
+                    wishTagDTO = new WishTagDTO(wish_name, wish_description, price, wish_id, tagIds, wishlist_id);
+                    System.out.println("dette er mit wishTagDto objekt " + wishTagDTO); // test
+                    wishTagDTOS.add(wishTagDTO);
                 }
                 userWishlistDTO = new UserWishlistDTO(wishlist_name, wishlist_id, user_id, role_id, role_name, wishTagDTOS);
+                System.out.println("dette er mit userWishlistDTO objekt " + userWishlistDTO); //test
             }
 
         } catch (SQLException e) {

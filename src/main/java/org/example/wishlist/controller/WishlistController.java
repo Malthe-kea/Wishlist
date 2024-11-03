@@ -55,19 +55,22 @@ public class WishlistController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam("role") String role, @RequestParam("userId") int userId, Model model) {
+    public String login(@RequestParam String role, @RequestParam int userId, Model model) {
         System.out.println("Received userId: " + userId);
+        System.out.println("Received role: " + role);
         model.addAttribute("role", role);
         model.addAttribute("userId", userId);
-        return "redirect:/showallwishes";
+        return "redirect:/showallwishes?userId=" + userId + "&role=" + role;
     }
 
 
     @GetMapping("/showallwishes")
-    public String showAllDTOWishes(@ModelAttribute User user, Model model) {
-        UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(user.getUser_id());
+    public String showAllDTOWishes(@RequestParam int userId, Model model) {
+        System.out.println("show all wishes has userid: " + userId);
+        UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
+        System.out.println(userWishlistDTO); //den er null???
         model.addAttribute("userWishlistDTO", userWishlistDTO);
-        model.addAttribute("user", user.getName());
+        model.addAttribute("user", wishlistService.getUserNameById(userId));
         return "show-wishlist";
     }
 
