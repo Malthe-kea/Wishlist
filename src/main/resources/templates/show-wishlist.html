@@ -15,6 +15,7 @@
 <ul>
     <li th:each="wish : ${userWishlistDTO.wishes}">
         <span th:text="${wish.wish_name}">Wish name</span>:
+        <span th:text="${wish.price} 'DKK " >Price</span>
         <span th:text="${wish.description}">Description</span>
     </li>
 </ul>
