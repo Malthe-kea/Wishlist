@@ -6,7 +6,6 @@ import org.example.wishlist.model.*;
 import org.example.wishlist.model.UserWishlistDTO;
 
 import org.example.wishlist.repositiory.IWishlistRepository;
-import org.example.wishlist.repositiory.WishtlistRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,9 @@ public class WishlistService {
     }
     public UserWishlistDTO getUserwishlistByUserId(int user_id) {
         return wishlistRepository.getUserwishlistByUserId(user_id);
+    }
+    public String getUserNameById(int userId) {
+     return wishlistRepository.getUserNameById(userId);
     }
 
     public List<Role> getAllRoles() {
