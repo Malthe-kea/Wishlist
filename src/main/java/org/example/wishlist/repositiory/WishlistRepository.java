@@ -1,4 +1,5 @@
 package org.example.wishlist.repositiory;
+
 import org.example.wishlist.model.Tag;
 import org.example.wishlist.model.User;
 import org.example.wishlist.model.Role;
@@ -19,8 +20,8 @@ import java.sql.*;
 
 @Repository("DEPARTMENT_REPOSITORY")
 @Lazy
-public class WishtlistRepository implements IWishlistRepository {
-    private static final Logger logger = LoggerFactory.getLogger(WishtlistRepository.class);
+public class WishlistRepository implements IWishlistRepository {
+    private static final Logger logger = LoggerFactory.getLogger(WishlistRepository.class);
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
@@ -31,7 +32,7 @@ public class WishtlistRepository implements IWishlistRepository {
     @Value("${spring.datasource.password}")
     private String password;
 
-    public WishtlistRepository() {
+    public WishlistRepository() {
     }
 
     @Override
@@ -179,34 +180,6 @@ public class WishtlistRepository implements IWishlistRepository {
             logger.error("SQL exception occurred", e);
         }
     }
-
-//    @Override
-//    public List<Wish> getAllWishes() {
-//        List<Wish> wishes = new ArrayList<>();
-//        String sql = "SELECT * FROM wish";
-//
-//        try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim());
-//             Statement statement = connection.createStatement();
-//             ResultSet resultSet = statement.executeQuery(sql)) {
-//
-//            while (resultSet.next()) {
-//                Wish wish = new Wish( // Opretter Wish-objektet
-//                        resultSet.getString("wish_name"),
-//                        resultSet.getString("description"),
-//                        resultSet.getInt("price"),
-//                        resultSet.getInt("wishlist_id"),
-//                        resultSet.getInt("role_id"),
-//                        resultSet.getInt("user_id"),
-//                        resultSet.getInt("wish_id")
-//                );
-//                wishes.add(wish);
-//            }
-//        } catch (SQLException e) {
-//            logger.error("SQL exception occurred", e);
-//        }
-//
-//        return wishes;
-//    }
 
 
     @Override
@@ -416,5 +389,41 @@ public class WishtlistRepository implements IWishlistRepository {
         }
 
         return userWishlistDTO;
+    }
+
+
+    @Override
+    public void createUserAndWishlistDTO(String user_name, UserWishlistDTO uw) {
+        String sqlInsertUser = "INSERT INTO user (name) VALUES (?)";
+        String sqlInsertWishlist = "INSERT INTO wishlist(wishlist_name, user_id, role_id) VALUES (?,?,?)";
+        String sqlInsertuser_role = "INSERT INTO user_role(user_id, role_id) VALUES (?,?)";
+
+        try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password)) {
+            PreparedStatement statement1 = con.prepareStatement(sqlInsertUser, Statement.RETURN_GENERATED_KEYS);
+            statement1.setString(1, user_name);
+            statement1.executeUpdate();
+
+            ResultSet resultSet1 = statement1.getGeneratedKeys();
+            while (resultSet1.next()) {
+                int user_id = resultSet1.getInt(1); //henter den generede user_id
+
+                PreparedStatement statement2 = con.prepareStatement(sqlInsertWishlist);
+                statement2.setString(1, uw.getWishlist_name());
+                statement2.setInt(2, uw.getUser_id());
+                statement2.setInt(3, uw.getRole_id());
+                statement2.executeUpdate();
+                ResultSet resultSet2 = statement1.executeQuery();
+                if (resultSet2.next()) {
+                    PreparedStatement statement3 = con.prepareStatement(sqlInsertuser_role);
+                    statement3.setInt(1, uw.getUser_id());
+                    statement3.setInt(2, uw.getRole_id());
+                    statement3.executeUpdate();
+                }
+
+            }
+
+        } catch (SQLException e) {
+            logger.error("SQL exception occurred", e);
+        }
     }
 }
