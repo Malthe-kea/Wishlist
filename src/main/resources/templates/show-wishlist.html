@@ -17,8 +17,6 @@
         <span th:text="${wish.wish_name}">Wish name</span>:
         <span th:text="${wish.description}">Description</span>
         <span th:text="${wish.price}">price</span>
-        <a th:href="${wish.wish_id}/delete" class="btn"> Slet </a>
-
         <p>Tags:</p>
         <div th:each="tag : ${wish.tagIds}">
             <div th:each="avaliabletag : ${avaliableTags}">
