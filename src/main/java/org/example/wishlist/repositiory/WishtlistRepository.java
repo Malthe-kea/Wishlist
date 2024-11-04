@@ -279,25 +279,37 @@ public class WishtlistRepository implements IWishlistRepository {
     }
 
     @Override
-    public Wish getWishByID(int wish_id) {
-        //TODO Denne queary skal tjekkes om den er korrekt.
-        String sqlStringWish = "SELECT w.name, t.description, w.price, w.wishlist_id, w.role_id, w.user_id, w.wish_id FROM wish WHERE wish_id = ?";
+    public WishTagDTO getWishByID(int wish_id) {
+        String sqlStringWish = "SELECT w.name, w.description, w.price, w.wishlist_id, w.role_id, w.user_id, w.wish_id FROM wish w WHERE w.wish_id = ?";
+        String sqlStringTag = "SELECT t.tag_id, t.tag_name FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
+        WishTagDTO wishTagDTO = null;
         Wish wish = null;
+        List<Integer> tagIDList = new ArrayList<>();
+
         try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             PreparedStatement statement = connection.prepareStatement(sqlStringWish);
+            PreparedStatement statement2 = connection.prepareStatement(sqlStringTag);
+
             statement.setInt(1, wish_id);
+            statement2.setInt(1, wish_id);
 
             ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet2 = statement2.executeQuery();
             if (resultSet.next()) {
-                String wishName = resultSet.getString("name");
-                String description = resultSet.getString("description");
+                String wishName = resultSet.getString("wish_name");
+                String description = resultSet.getString("wish_description");
                 int price = resultSet.getInt("price");
                 int wishlist_id = resultSet.getInt("wishlist_id");
                 int role_id = resultSet.getInt("role_id");
                 int user_id = resultSet.getInt("user_id");
                 int wishid = resultSet.getInt("wish_id");
 
-                wish = new Wish(wishName, description, price, wishlist_id, role_id, user_id, wishid);
+                while(resultSet2.next()){
+                    int tagid = resultSet2.getInt("tag_id");
+                    tagIDList.add(tagid);
+                }
+
+                wishTagDTO = new WishTagDTO(wishName, description,price,wishid,tagIDList,wishlist_id);
 
             }
 
@@ -306,7 +318,7 @@ public class WishtlistRepository implements IWishlistRepository {
         }
 
         //indsæt rigtig returnvariable.
-        return wish;
+        return new WishTagDTO();
     }
 
     @Override
