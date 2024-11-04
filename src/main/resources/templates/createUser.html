@@ -1,16 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"> <!--thymeleaf initialiseres-->
-<div th:insert="~{fragments/header :: header}"></div>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <link th:href="@{/main.css}" rel="stylesheet">
-  <title>Create User</title>
-
+    <meta charset="UTF-8">
+    <link th:href="@{/main.css}" rel="stylesheet">
+    <title>Create User and Wishlist</title>
 </head>
 <body>
-<h1>Create user and wishlist</h1>
-<!--<form th:action="@{/saveCreatedUser}" th:object="${userWishlistDTO}" method="post">-->
+<h1>Create User and Wishlist</h1>
+<form th:action="@{/saveCreatedUser}" th:object="${userWishlistDTO}" method="post">
+    <label for="name">User Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter name" required>
+    <br>
 
+    <label for="wishlistName">Wishlist Name:</label>
+    <input type="text" id="wishlistName" name="wishlistName" th:field="*{wishlist_name}" placeholder="Enter wishlist name" required>
+    <br>
+
+    <label for="role">Select Role:</label>
+    <select id="role" name="role_id" th:field="*{role_id}" required>
+        <option value="">Select a role</option>
+        <option value="1">Giftwisher</option>
+        <option value="2">Giftgiver</option>
+    </select>
+    <br>
+
+    <button type="submit">Create</button>
 </form>
 </body>
-</html>-
+</html>
+
+

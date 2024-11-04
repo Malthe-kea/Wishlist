@@ -29,6 +29,10 @@ public class WishlistController {
     public String welcome(Model model) {
         model.addAttribute("users", wishlistService.getAllUsers());
         model.addAttribute("roles", wishlistService.getAllRoles());
+        //tjekker om der er bedsked i model
+        if (model.containsAttribute("message")) {
+            model.addAttribute("message", model.getAttribute("message"));
+        }
         return "loginpage";
     }
 
@@ -42,7 +46,9 @@ public class WishlistController {
     @PostMapping("/saveCreatedUser")
     public String saveCreatedUser(@ModelAttribute UserWishlistDTO userWishlistDTO, Model model, String name) {
         wishlistService.createUserAndWishlistDTO(name, userWishlistDTO);
-        return "redirect:/";
+        // Tilføj en besked til model
+        model.addAttribute("message", "Bruger oprettet! Du kan nu logge ind.");
+        return "redirect:/login?userId=" + userWishlistDTO.getUser_id() + "&role=" + userWishlistDTO.getRole_id();
     }
 
     @GetMapping("/addWish")
