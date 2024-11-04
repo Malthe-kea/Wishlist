@@ -1,25 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
     <link th:href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
-<form action="/login" method="get">
-    <label for="userId">Vælg bruger:</label>
-    <select name="userId" id="userId">
-        <!-- Iterer over brugere -->
+<h1>Login</h1>
+
+<!-- Vis besked, hvis der er en -->
+<div th:if="${message}" style="color: green;">
+    <p th:text="${message}"></p>
+</div>
+
+<form th:action="@{/login}" method="get">
+    <label for="userId">Select User:</label>
+    <select name="userId" id="userId" required>
         <option th:each="user : ${users}" th:value="${user.user_id}" th:text="${user.name}"></option>
     </select>
 
-    <label for="role">Vælg rolle:</label>
-    <select name="role" id="role">
-        <!-- Iterér over roller -->
+    <label for="role">Select Role:</label>
+    <select name="role" id="role" required>
         <option th:each="role : ${roles}" th:value="${role.role_id}" th:text="${role.role_name}"></option>
     </select>
 
-    <button type="submit">Log ind</button>
+    <button type="submit">Log In</button>
+</form>
+
+<form th:action="@{/createUser}" method="get">
+    <button type="submit">Create User</button>
 </form>
 </body>
+
 </html>
+

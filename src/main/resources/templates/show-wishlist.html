@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Your wishlist</title>
     <link rel="stylesheet" href="stylesheet.css">
     <title>Wishlist</title>
 </head>
@@ -15,8 +14,8 @@
 <ul>
     <li th:each="wish : ${userWishlistDTO.wishes}">
         <span th:text="${wish.wish_name}">Wish name</span>:
+        <span th:text="${wish.price + ' DKK'}">Price</span>
         <span th:text="${wish.description}">Description</span>
-        <span th:text="${wish.price}">price</span>
         <p>Tags:</p>
         <div th:each="tag : ${wish.tagIds}">
             <div th:each="avaliabletag : ${avaliableTags}">
@@ -28,9 +27,12 @@
     </li>
 </ul>
 <td>
-    <form th:action="@{/createUser}" method="get">
-        <button type="submit">Opret bruger</button>
+    <form th:action="@{/addWish}" method="get">
+        <button type="submit">Add Wish</button>
     </form>
 </td>
+<form th:action="@{/addWish}" method="get">
+    <button type="submit">Add Wish</button>
+</form>
 </body>
 </html>

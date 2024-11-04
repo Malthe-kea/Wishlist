@@ -3,14 +3,16 @@ package org.example.wishlist.model;
 import java.util.List;
 
 public class UserWishlistDTO { //samler alle informationer omkring en wishlist
+    private String name;
     private String wishlist_name;
     private int wishlist_id;
     private int user_id;
-    private int role_id;
+    private Integer role_id;
     private String role_name;
     List<WishTagDTO> wishes;
 
-    public UserWishlistDTO(String wishlist_name, int wishlist_id, int user_id, int role_id, String role_name, List<WishTagDTO> wishes) {
+    public UserWishlistDTO(String name, String wishlist_name, int wishlist_id, int user_id, Integer role_id, String role_name, List<WishTagDTO> wishes) {
+        this.name = name;
         this.wishlist_name = wishlist_name;
         this.wishlist_id = wishlist_id;
         this.user_id = user_id;
@@ -23,6 +25,14 @@ public class UserWishlistDTO { //samler alle informationer omkring en wishlist
 
     public String getWishlist_name() {
         return wishlist_name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setWishlist_name(String wishlist_name) {
@@ -45,11 +55,11 @@ public class UserWishlistDTO { //samler alle informationer omkring en wishlist
         this.user_id = user_id;
     }
 
-    public int getRole_id() {
+    public Integer getRole_id() {
         return role_id;
     }
 
-    public void setRole_id(int role_id) {
+    public void setRole_id(Integer role_id) {
         this.role_id = role_id;
     }
 
@@ -72,7 +82,7 @@ public class UserWishlistDTO { //samler alle informationer omkring en wishlist
     @Override
     public String toString() {
         return "UserWishlistDTO{" +
-                "wishlist_name='" + wishlist_name + '\'' +
+                "User name: " + name +"wishlist_name='" + wishlist_name + '\'' +
                 ", wishlist_id=" + wishlist_id +
                 ", user_id=" + user_id +
                 ", role_id=" + role_id +
