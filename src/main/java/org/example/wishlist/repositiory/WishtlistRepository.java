@@ -1,5 +1,4 @@
 package org.example.wishlist.repositiory;
-
 import org.example.wishlist.model.Tag;
 import org.example.wishlist.model.User;
 import org.example.wishlist.model.Role;
