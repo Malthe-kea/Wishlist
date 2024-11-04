@@ -282,9 +282,9 @@ public class WishtlistRepository implements IWishlistRepository {
     public WishTagDTO getWishByID(int wish_id) {
         String sqlStringWish = "SELECT w.name, w.description, w.price, w.wishlist_id, w.role_id, w.user_id, w.wish_id FROM wish w WHERE w.wish_id = ?";
         String sqlStringTag = "SELECT t.tag_id, t.tag_name FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
-        WishTagDTO wishTagDTO = new WishTagDTO();
 
-
+        WishTagDTO wishTagDTO = null;
+        Wish wish = null;
         List<Integer> tagIDList = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
@@ -308,7 +308,7 @@ public class WishtlistRepository implements IWishlistRepository {
                 while(resultSet2.next()){
                     int tagid = resultSet2.getInt("tag_id");
                     tagIDList.add(tagid);
-                }
+
                 wishTagDTO = new WishTagDTO(wishName, description,price,wishid,tagIDList,wishlist_id);
             }
 
