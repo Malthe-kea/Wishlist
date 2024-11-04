@@ -7,26 +7,50 @@ create table tag(tag_name varChar(255) NOT NULL, tag_id INT AUTO_INCREMENT PRIMA
 create table role(role_id int auto_increment primary key, role_name varChar(255));
 
 create table user(name varChar(255),
-user_id int PRIMARY KEY);
+                  user_id int PRIMARY KEY auto_increment);
 
 create table user_role(user_id int , role_id int,
-PRIMARY KEY (user_id, role_id),
-FOREIGN KEY (user_id) REFERENCES user(user_id),
-FOREIGN KEY (role_id) REFERENCES role(role_id));
+                       PRIMARY KEY (user_id, role_id),
+                       FOREIGN KEY (user_id) REFERENCES user(user_id),
+                       FOREIGN KEY (role_id) REFERENCES role(role_id));
 
 create table wishlist(wishlist_name varChar(255) NOT NULL,
-wishlist_id INT auto_increment PRIMARY KEY, user_id int, role_id int,
-FOREIGN KEY (user_id, role_id) REFERENCES user_role(user_id, role_id));
+                      wishlist_id INT auto_increment PRIMARY KEY, user_id int, role_id int,
+                      FOREIGN KEY (user_id, role_id) REFERENCES user_role(user_id, role_id));
 
-create table wish(wish_name varChar(255) NOT NULL, description varChar(255), price INT, wishlist_id INT, role_id INT, user_id int,
-wish_id INT AUTO_INCREMENT PRIMARY KEY,
-FOREIGN KEY (user_id, role_id) REFERENCES user_role(user_id, role_id),
-FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id));
+create table wish(wish_name varChar(255) NOT NULL, wish_description varChar(255), price INT, wishlist_id INT, role_id INT, user_id int,
+                  wish_id INT AUTO_INCREMENT PRIMARY KEY,
+                  FOREIGN KEY (user_id, role_id) REFERENCES user_role(user_id, role_id),
+                  FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id));
 
 create table wish_tag(tag_id int , wish_id int,
-PRIMARY KEY (tag_id, wish_id),
-FOREIGN KEY (tag_id) REFERENCES tag(tag_id),
-FOREIGN KEY (wish_id) REFERENCES wish(wish_id));
+                      PRIMARY KEY (tag_id, wish_id),
+                      FOREIGN KEY (tag_id) REFERENCES tag(tag_id),
+                      FOREIGN KEY (wish_id) REFERENCES wish(wish_id));
+
+INSERT INTO role(role_name)
+VALUES('giftwisher'),('giftgiver');
+
+INSERT INTO user(name)
+VALUES('sabrina'), ('morten'), ('Amalie');
+
+INSERT INTO user_role(user_id, role_id)
+VALUES(1, 1), (2, 1), (3,1);
+
+INSERT INTO wishlist(wishlist_name, user_id, role_id)
+VALUES('sabrinas wishes', 1, 1),('morten wishes', 2, 1);
+
+INSERT INTO wish(wish_name, wish_description, price, wishlist_id, role_id, user_id)
+VALUES('book', 'sabrebook1', 2, 1, 1, 1), ('book', 'mortensebook', 2, 2, 1, 2), ('book', 'sabreebook2', 2, 1, 1, 1);
+
+INSERT INTO tag(tag_name)
+VALUES
+    ('saves the ocean'),
+    ('people pleaser'),
+    ('no plastic');
+
+INSERT INTO wish_tag(tag_id, wish_id)
+VALUES(1,1),(2,1),(2,2);
 
 
 
