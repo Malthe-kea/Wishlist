@@ -275,8 +275,10 @@ public class WishtlistRepository implements IWishlistRepository {
         } catch (SQLException e) {
             logger.error("SQL exception occurred", e);
         }
+
         return tags;
     }
+
 
     @Override
     public WishTagDTO getWishByID(int wish_id) {
@@ -305,17 +307,19 @@ public class WishtlistRepository implements IWishlistRepository {
                 int user_id = resultSet.getInt("user_id");
                 int wishid = resultSet.getInt("wish_id");
 
-                while(resultSet2.next()){
+                while (resultSet2.next()) {
                     int tagid = resultSet2.getInt("tag_id");
                     tagIDList.add(tagid);
 
-                wishTagDTO = new WishTagDTO(wishName, description,price,wishid,tagIDList,wishlist_id);
+                    wishTagDTO = new WishTagDTO(wishName, description, price, wishid, tagIDList, wishlist_id);
+                }
             }
 
-        } catch (SQLException e) {
-            logger.error("SQL exception occured", e);
+            } catch(SQLException e){
+                logger.error("SQL exception occured", e);
+
         }
-        return wishTagDTO;
+            return wishTagDTO;
     }
 
     @Override
