@@ -1,5 +1,5 @@
 package org.example.wishlist.model;
-//he
+
 public class User {
     private Integer user_id;
     private String name;
@@ -7,6 +7,10 @@ public class User {
     public User(int user_id, String name) {
         this.user_id = user_id;
         this.name = name;
+    }
+
+    public User() {
+
     }
 
     public int getUser_id() {

@@ -26,14 +26,12 @@
                 </div>
             </div>
         </div>
-        <p>Opret bruger:</p>
-        <td> <!--Modificer action endpoint-->
-            <form th:action="@{/delete (id=${touristattraction.tourist_id})}" method="post">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
     </li>
-
 </ul>
+<td>
+    <form th:action="@{/createUser}" method="get">
+        <button type="submit">Opret bruger</button>
+    </form>
+</td>
 </body>
 </html>
