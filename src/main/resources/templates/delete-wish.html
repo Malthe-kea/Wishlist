@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Wish</title>
-  <link rel="stylesheet" href="stylesheet.css">
+  <title>Attraction Deleted</title>
+  <link rel="stylesheet" th:href="@{/stylesheetTouristGuide.css}">
 </head>
 <body>
 <h1>Are you sure you want to delete this wish?</h1>
 <form th:action="@{/delete}" method="post">
-  <input type="hidden" name="name" th:value="${wish.name}">
+  <input type="hidden" name="name" th:value="${wish.wish_name}">
   <button type="submit" class="btn">Delete</button>
 </form>
 <a th:href="@{/}" class="btn">Back</a>
