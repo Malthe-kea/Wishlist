@@ -30,7 +30,7 @@ public interface IWishlistRepository {
 
     List<Tag> getTags(int wish_id); //se tags på et specifikt ønske
 
-    Wish getWishByID(int wish_id); //Se et specifikt ønske fra ID
+    WishTagDTO getWishByID(int wish_id); //Se et specifikt ønske fra ID
 
     //UPDATE
     void editWish(int wish_id); //editer et specifikt ønske
