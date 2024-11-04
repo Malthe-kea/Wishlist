@@ -2,6 +2,7 @@ package org.example.wishlist.controller;
 
 import org.example.wishlist.model.UserWishlistDTO;
 
+import org.example.wishlist.model.Wish;
 import org.example.wishlist.model.WishTagDTO;
 import org.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
@@ -80,23 +81,20 @@ public class WishlistController {
         return "show-wishlist";
     }
 
-    @PostMapping("attractions/delete")
-    public String getWishToDelete(@RequestParam String name) {
-        //TODO kald den rigtige gettermetoder, når den er blevet lavet.
-        //Wish w = wishlistService.getWishByName(name);
-        //if (w != null) {
-
-        //    wishlistService.deleteDTOWishlistItem(w);
-
-        //}
-        return "redirect:/";
+    @PostMapping("/{wish_id}/delete")
+    public String getWishToDelete(@PathVariable int wish_id, Model model) {
+        WishTagDTO wishTagDTO = wishlistService.getWishById(wish_id);
+        model.addAttribute("wish", wishTagDTO);
+        return "delete-wish";
     }
 
     @PostMapping("/delete")
     public String deleteWishlistItem(@RequestParam int wish_Id) {
-        wishlistService.deleteDTOaWishlistItem(wish_Id);
-        //TODO indsæt korrekt redirection herunder.
-        return "redirect:/show-wishlist";
+        WishTagDTO w = wishlistService.getWishById(wish_Id);
+        if (w != null) {
+            wishlistService.deleteDTOWish(wish_Id);
+        }
+        return "redirect:/";
     }
 
 }
