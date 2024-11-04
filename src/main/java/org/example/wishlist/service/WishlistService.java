@@ -58,4 +58,12 @@ public class WishlistService {
     public List<Tag> getTags(int wish_id) {
         return wishlistRepository.getTags(wish_id);
     }
+
+    public WishTagDTO getWishById(int wish_id){
+        return wishlistRepository.getWishByID(wish_id);
+    }
+
+    public void deleteDTOWish(int wish_id){
+        wishlistRepository.deleteDTOWish(wish_id);
+    }
 }
