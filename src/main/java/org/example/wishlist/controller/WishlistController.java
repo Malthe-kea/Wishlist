@@ -30,7 +30,7 @@ public class WishlistController {
         model.addAttribute("roles", wishlistService.getAllRoles());
         return "loginpage";
     }
-
+//hej
 //    @GetMapping("/createUser")
 //    public String createUser(Model model) {
 //        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
