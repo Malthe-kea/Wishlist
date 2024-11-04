@@ -30,7 +30,19 @@ public class WishlistController {
         model.addAttribute("roles", wishlistService.getAllRoles());
         return "loginpage";
     }
-
+//hej
+//    @GetMapping("/createUser")
+//    public String createUser(Model model) {
+//        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+//        model.addAttribute("userWishlistDTO", userWishlistDTO);
+//        return "createUser";
+//    }
+//
+//    @PostMapping("/saveCreatedUser")
+//    public String saveCreatedUser(@ModelAttribute UserWishlistDTO userWishlistDTO, Model model, String name) {
+//        wishlistService.createUserAndWishlistDTO(name, userWishlistDTO);
+//        return "redirect:/";
+//    }
 
     @GetMapping("/addWish")
     public String addWish(Model model) {

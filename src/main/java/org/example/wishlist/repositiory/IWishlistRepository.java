@@ -10,6 +10,8 @@ public interface IWishlistRepository {
 
     public UserWishlistDTO getUserwishlistByWishlistId(int wishlist_id);
 
+    public void createUserAndWishlistDTO(String user_name, UserWishlistDTO uw);
+
     //READ
     public List<User> getAllUsers();
 
@@ -19,7 +21,7 @@ public interface IWishlistRepository {
 
     public List<Role> getAllRoles();
 
-   List<WishTagDTO> getAllDTOWishes();
+    List<WishTagDTO> getAllDTOWishes();
 
     List<Wish> getWishlistById(int wishlist_id);
 
@@ -37,4 +39,6 @@ public interface IWishlistRepository {
     void deleteDTOWish(int wish_id); //slet et ønske
 
     void giveWish(int wish_id); //giv et ønske
+
+
 }

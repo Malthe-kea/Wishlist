@@ -9,6 +9,8 @@ public class Role {
         this.role_name = role_name;
     }
 
+    public Role (){}
+
     public int getRole_id() {
         return role_id;
     }
