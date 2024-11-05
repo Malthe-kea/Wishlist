@@ -8,12 +8,12 @@
 <body>
 <h1>Create User and Wishlist</h1>
 <form th:action="@{/saveCreatedUser}" th:object="${userWishlistDTO}" method="post">
-    <label for="name">User Name:</label>
+    <label for="name">Your new user name:</label>
     <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter name" required>
     <br>
 
     <label for="wishlistName">Wishlist Name:</label>
-    <input type="text" id="wishlistName" name="wishlistName" th:field="*{wishlist_name}" placeholder="Enter wishlist name" required>
+    <input type="text" id="wishlistName" name="wishlistName" th:field="*{wishlist_name}" placeholder="Enter the name of your new wishlist" required>
     <br>
 
     <label for="role">Select Role:</label>

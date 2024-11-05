@@ -16,7 +16,7 @@ public class UserWishlistDTO { //samler alle informationer omkring en wishlist
         this.wishlist_name = wishlist_name;
         this.wishlist_id = wishlist_id;
         this.user_id = user_id;
-        this.role_id = role_id;
+        this.role_id = 1;
         this.role_name = role_name;
         this.wishes = wishes;
     }

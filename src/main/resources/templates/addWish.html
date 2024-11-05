@@ -8,7 +8,6 @@
 <body>
 <h1>Add Wish</h1>
 <form th:action="@{/addWish}" th:object="${wishdto}" method="post">
-    <!-- Navn -->
     <label for="wish_name">Wish Name:</label>
     <input id="wish_name" class="form-control"
            type="text"
@@ -16,7 +15,6 @@
            placeholder="Enter wish name" />
     <br>
 
-    <!-- Beskrivelse -->
     <label for="description">Description:</label>
     <input id="description" class="form-control"
            type="text"
@@ -24,15 +22,13 @@
            placeholder="Enter description" />
     <br>
 
-    <!-- Pris -->
-    <label for="price">Price (in dollars):</label>
+    <label for="price">Price (in DKK):</label>
     <input id="price" class="form-control"
            type="number"
            th:field="*{price}"
            placeholder="Enter price" />
     <br>
 
-    <!-- Tags -->
     <label>Tags:</label>
     <br>
     <div>
@@ -41,13 +37,16 @@
             <label th:for="${tag.tag_id}" th:text="${tag.tag_name}"></label><br>
         </th:block>
     </div>
+    <p>Wishlist ID (hidden field value): <span th:text="${wishdto.wishlist_id}"></span></p>
+
+    <input type="hidden" th:field="*{wishlist_id}" th:value="${wishdto.wishlist_id}" />
+    <input type="hidden" th:field="*{wish_id}" th:value="${wishdto.wish_id}" />
 
     <br>
     <button type="submit">Add Wish</button>
 </form>
 
-<!-- Afbryd-knap -->
-<form th:action="@{/show-wishlist}" method="get">
+<form th:action="@{/login}" method="post">
     <button type="submit">Regret</button>
 </form>
 </body>
