@@ -292,12 +292,9 @@ public class WishlistRepository implements IWishlistRepository {
 
                 }
                 wishTagDTO = new WishTagDTO(wishName, description, price, wishid, tagIDList, wishlist_id);
-
             }
-
         } catch (SQLException e) {
             logger.error("SQL exception occured", e);
-
         }
         return wishTagDTO;
     }
