@@ -28,9 +28,12 @@
     </li>
 </ul>
 
-<form th:action="@{/}" method="get" target="_blank">
-    <button type="submit">Back</button>
+<form th:action="@{/showallwishes}" method="get" style="display:inline;">
+    <input type="hidden" name="userId" th:value="${userWishlistDTO.getUser_id()}"/>
+    <input type="hidden" name="role" th:value="${userWishlistDTO.getRole_id()}"/>
+    <button type="submit" class="btn2">Back</button>
 </form>
+
 
 
 
