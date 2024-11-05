@@ -287,10 +287,12 @@ public class WishlistRepository implements IWishlistRepository {
 
                 while (resultSet2.next()) {
                     int tagid = resultSet2.getInt("tag_id");
+                    String tagname = resultSet2.getString("tag_name");
                     tagIDList.add(tagid);
 
-                    wishTagDTO = new WishTagDTO(wishName, description, price, wishid, tagIDList, wishlist_id);
                 }
+                wishTagDTO = new WishTagDTO(wishName, description, price, wishid, tagIDList, wishlist_id);
+
             }
 
         } catch (SQLException e) {
@@ -310,13 +312,14 @@ public class WishlistRepository implements IWishlistRepository {
         String sqlStringTag = "DELETE FROM wish_tag WHERE wish_id = ?";
         String sqlStringWish = "DELETE FROM wish WHERE wish_id = ?";
         try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+            PreparedStatement preparedStatementTag = connection.prepareStatement(sqlStringTag);
+            preparedStatementTag.setInt(1, wish_id);
+            preparedStatementTag.executeUpdate();
+
+
             PreparedStatement preparedStatementWish = connection.prepareStatement(sqlStringWish);
             preparedStatementWish.setInt(1, wish_id);
             preparedStatementWish.executeUpdate();
-
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlStringTag);
-            preparedStatement.setInt(1, wish_id);
-            preparedStatement.executeUpdate();
 
 //METODEN RAMMER DENNE ERROR.
         } catch (SQLException e) {
