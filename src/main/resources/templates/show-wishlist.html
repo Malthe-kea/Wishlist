@@ -3,42 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="stylesheet.css">
+    <link th:href="@{/main.css}" rel="stylesheet">
     <title>Wishlist</title>
 </head>
 <body>
-<div>
-    <header>
-        <h1>This is your wishlist <span th:text="${user}"></span></h1>
-    </header>
-</div>
-<ul>
-    <li th:each="wish : ${userWishlistDTO.wishes}">
-        <span th:text="${wish.wish_name}">Wish name</span>:
-        <span th:text="${wish.price + ' DKK'}">Price</span>
-        <span th:text="${wish.description}">Description</span>
 
-        <p>Tags:</p>
-        <div th:each="tag : ${wish.tagIds}">
-            <div th:each="avaliabletag : ${avaliableTags}">
-                <div th:if="${tag == avaliabletag.tag_id}">
-                    <p><span th:text="${avaliabletag.tag_name}"></span></p>
+<header>
+    <h1>Welcome to Your Wishlist, <span th:text="${user}"></span></h1>
+</header>
+
+<main>
+    <ul class="wishlist">
+        <li th:each="wish : ${userWishlistDTO.wishes}" class="wish-item">
+            <h2 th:text="${wish.wish_name}">Wish name</h2>
+            <p><strong>Price:</strong> <span th:text="${wish.price + ' DKK'}">Price</span></p>
+            <p><strong>Description:</strong> <span th:text="${wish.description}">Description</span></p>
+
+            <div class="tags">
+                <p><strong>Tags:</strong></p>
+                <div th:each="tag : ${wish.tagIds}" class="tag">
+                        <span th:each="avaliabletag : ${avaliableTags}" th:if="${tag == avaliabletag.tag_id}">
+                            <span th:text="${avaliabletag.tag_name}"></span>
+                        </span>
                 </div>
             </div>
-        </div>
-        <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="post" style="display:inline;">
+          <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="post" style="display:inline;">
             <button type="submit" class="btn">Slet ønske</button>
         </form>
 
+        </li>
+    </ul>
 
-    </li>
-</ul>
-<td>
-    <form th:action="@{/addWish}" method="get">
-        <button type="submit">Add Wish</button>
-    </form>
-</td>
-<form th:action="@{/addWish}" method="get">
-    <button type="submit">Add Wish</button>
-</form>
+    <div class="button-container">
+        <form th:action="@{/addWish}" method="get">
+            <button type="submit">Add new Wish</button>
+        </form>
+        <form th:action="@{/}" method="get">
+            <button type="submit">Back</button>
+        </form>
+    </div>
+</main>
 </body>
 </html>
