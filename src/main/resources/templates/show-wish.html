@@ -2,10 +2,37 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link th:href="@{/main.css}" rel="stylesheet">
     <title>Title</title>
 </head>
 <body>
 <h1 th:text="${wishTagDTOP.wish_name}"> Details:</h1>
+
+
+<ul class="wishlist">
+    <li>
+        <p><strong>Price:</strong> <span th:text="${wishTagDTOP.price + ' DKK'}">Price</span></p>
+        <p><strong>Description:</strong> <span th:text="${wishTagDTOP.description}">Description</span></p>
+
+        <div class="tags">
+            <p><strong>Tags:</strong></p>
+            <div th:each="tag : ${wishTagDTOP.tagIds}" class="tag">
+                        <span th:each="avaliabletag : ${avaliableTags}" th:if="${tag == avaliabletag.tag_id}">
+                            <span th:text="${avaliabletag.tag_name}"></span>
+                        </span>
+            </div>
+        </div>
+
+
+    </li>
+</ul>
+
+<form th:action="@{/}" method="get" target="_blank">
+    <button type="submit">Back</button>
+</form>
+
+
 
 </body>
 </html>

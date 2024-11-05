@@ -110,6 +110,8 @@ public class WishlistController {
         }
         model.addAttribute("wishTagDTOId", wishTagDTO.getWish_id());
         model.addAttribute("wishTagDTOP", wishTagDTO);
+        model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
+
         return "show-wish";
     }
 
