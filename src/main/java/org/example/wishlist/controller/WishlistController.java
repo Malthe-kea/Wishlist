@@ -111,6 +111,10 @@ public class WishlistController {
         model.addAttribute("wishTagDTOId", wishTagDTO.getWish_id());
         model.addAttribute("wishTagDTOP", wishTagDTO);
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
+        UserWishlistDTO u = wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id());
+        model.addAttribute("userWishlistDTO", u);
+        model.addAttribute("userId", u.getUser_id());
+
 
         return "show-wish";
     }
