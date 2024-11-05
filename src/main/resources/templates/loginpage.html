@@ -9,12 +9,12 @@
 <h1>Login</h1>
 
 <form th:action="@{/login}" method="post">
-    <label for="userId">Select User:</label>
+    <label for="userId">Select User's wishlist:</label>
     <select name="userId" id="userId" required>
         <option th:each="user : ${users}" th:value="${user.user_id}" th:text="${user.name}"></option>
     </select>
 
-    <label for="role">Select Role:</label>
+    <label for="role">Select ur Role:</label>
     <select name="role_id" id="role" required>
         <option th:each="role : ${roles}" th:value="${role.role_id}" th:text="${role.role_name}"></option>
     </select>
