@@ -44,7 +44,7 @@ public class WishlistController {
     }
 
     @PostMapping("/saveCreatedUser")
-    public String saveCreatedUser(@ModelAttribute UserWishlistDTO userWishlistDTO, Model model, String name) {
+    public String saveCreatedUser(@ModelAttribute UserWishlistDTO userWishlistDTO, Model model, @RequestParam String name) {
         wishlistService.createUserAndWishlistDTO(name, userWishlistDTO);
         // Tilføj en besked til model
         model.addAttribute("message", "Bruger oprettet! Du kan nu logge ind.");
