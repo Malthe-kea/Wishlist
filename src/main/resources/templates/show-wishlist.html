@@ -27,6 +27,9 @@
                         </span>
                 </div>
             </div>
+            <form th:action="@{'/' + ${wish.wish_id} + '/show'}" method="post" style="display:inline;">
+                <button type="submit">Show wish</button>
+            </form>
           <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="post" style="display:inline;">
             <button type="submit" class="btn">Slet ønske</button>
         </form>
