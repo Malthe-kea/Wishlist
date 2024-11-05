@@ -260,7 +260,7 @@ public class WishlistRepository implements IWishlistRepository {
 
     @Override
     public WishTagDTO getWishByID(int wish_id) {
-        String sqlStringWish = "SELECT w.name, w.description, w.price, w.wishlist_id, w.role_id, w.user_id, w.wish_id FROM wish w WHERE w.wish_id = ?";
+        String sqlStringWish = "SELECT w.wish_name, w.wish_description, w.price, w.wishlist_id, w.role_id, w.user_id, w.wish_id FROM wish w WHERE w.wish_id = ?";
         String sqlStringTag = "SELECT t.tag_id, t.tag_name FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
 
         WishTagDTO wishTagDTO = null;
@@ -306,19 +306,19 @@ public class WishlistRepository implements IWishlistRepository {
     }
 
     @Override
-    public void deleteDTOWish(int id) {
-        String sqlStringTag = "DELETE FROM wish_tag WHERE tag_id = ?";
+    public void deleteDTOWish(int wish_id) {
+        String sqlStringTag = "DELETE FROM wish_tag WHERE wish_id = ?";
         String sqlStringWish = "DELETE FROM wish WHERE wish_id = ?";
         try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlStringTag);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-
             PreparedStatement preparedStatementWish = connection.prepareStatement(sqlStringWish);
-            preparedStatementWish.setInt(1, id);
+            preparedStatementWish.setInt(1, wish_id);
             preparedStatementWish.executeUpdate();
 
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlStringTag);
+            preparedStatement.setInt(1, wish_id);
+            preparedStatement.executeUpdate();
 
+//METODEN RAMMER DENNE ERROR.
         } catch (SQLException e) {
             logger.error("SQL exception occured", e);
         }

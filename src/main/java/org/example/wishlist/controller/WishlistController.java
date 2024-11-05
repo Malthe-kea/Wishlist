@@ -87,20 +87,26 @@ public class WishlistController {
         return "show-wishlist";
     }
 
+
+    //DENNE METODE VIRKER!
     @PostMapping("/{wish_id}/delete")
     public String getWishToDelete(@PathVariable int wish_id, Model model) {
         WishTagDTO wishTagDTO = wishlistService.getWishById(wish_id);
-        model.addAttribute("wish", wishTagDTO);
+        model.addAttribute("wishTagDTOId", wishTagDTO.getWish_id());
+        model.addAttribute("wishTagDTOP", wishTagDTO);
+        if(wishTagDTO == null){
+            throw new RuntimeException("wish is null");
+        }
+
         return "delete-wish";
     }
 
-    @PostMapping("/delete")
-    public String deleteWishlistItem(@RequestParam int wish_Id) {
-        WishTagDTO w = wishlistService.getWishById(wish_Id);
-        if (w != null) {
-            wishlistService.deleteDTOWish(wish_Id);
-        }
-        return "redirect:/";
+    @PostMapping ("/deleteWish")
+    public String deleteWishlistItem(@RequestParam int wishTagDTOId) {
+        WishTagDTO w = wishlistService.getWishById(wishTagDTOId);
+        wishlistService.deleteDTOWish(w.getWish_id());
+
+        return "show-wishlist";
     }
 
 }
