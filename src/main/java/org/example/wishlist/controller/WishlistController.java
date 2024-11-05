@@ -31,7 +31,7 @@ public class WishlistController {
     }
 
     @GetMapping("/showallwishesAsGiftgiver")
-    public String showAllDTOWishesAsGiftGiver(@RequestParam int userId,Model model) {
+    public String showAllDTOWishesAsGiftGiver(@RequestParam int userId, Model model) {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
         System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);
@@ -39,6 +39,7 @@ public class WishlistController {
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
         return "show-wishlist-giftgiver";
     }
+
     @GetMapping("/login")
     public String login(@RequestParam String role, @RequestParam int userId, Model model) {
         model.addAttribute("role", role);
@@ -54,6 +55,7 @@ public class WishlistController {
         model.addAttribute("message", "Bruger oprettet! Du kan nu logge ind.");
         return "redirect:/login?userId=" + userWishlistDTO.getUser_id() + "&role=" + userWishlistDTO.getRole_id();
     }
+
     @PostMapping("/login")
     public String loginUser(@RequestParam int userId, @RequestParam int role_id, Model model) {
         String roleName = wishlistService.getRoleNameById(role_id);
@@ -63,6 +65,7 @@ public class WishlistController {
             return "redirect:/showallwishesAsGiftgiver?userId=" + userId;
         }
     }
+
     @GetMapping("/createUser")
     public String createUser(Model model) {
         UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
@@ -70,6 +73,19 @@ public class WishlistController {
         return "createUser";
     }
 
+    //    @GetMapping("/addWish")
+//    public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
+//        WishTagDTO wishdto = new WishTagDTO();
+//        if (wishlistId != null) {
+//            wishdto.setWishlist_id(wishlistId);
+//        } else {
+//            int defaultWishlistId = 1; //skal slettes senere
+//            wishdto.setWishlist_id(defaultWishlistId);
+//        }
+//        model.addAttribute("wishdto", wishdto);
+//        model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
+//        return "addWish";
+//    }
     @GetMapping("/addWish")
     public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
         WishTagDTO wishdto = new WishTagDTO();
@@ -79,7 +95,6 @@ public class WishlistController {
             int defaultWishlistId = 1; //skal slettes senere
             wishdto.setWishlist_id(defaultWishlistId);
         }
-
         model.addAttribute("wishdto", wishdto);
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
         return "addWish";
@@ -89,9 +104,8 @@ public class WishlistController {
     @PostMapping("/addWish")
     public String addWish(@ModelAttribute WishTagDTO wishtagdto, Model model) {
         if (wishtagdto.getWishlist_id() == 0) {
-            return "addWish";
+            return "redirect:/addWish";
         }
-        System.out.println("Wishlist ID: " + wishtagdto.getWishlist_id()); // Log wishlist_id
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistById(wishtagdto.getWishlist_id());
         if (userWishlistDTO == null || userWishlistDTO.getRole_id() == null) {
             return "addWish";
@@ -101,7 +115,7 @@ public class WishlistController {
     }
 
     @GetMapping("/showallwishes")
-    public String showAllDTOWishes(@RequestParam int userId,Model model) {
+    public String showAllDTOWishes(@RequestParam int userId, Model model) {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
         System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);

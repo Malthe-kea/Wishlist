@@ -18,9 +18,8 @@
             <h2 th:text="${wish.wish_name}">Wish name</h2>
             <p><strong>Price:</strong> <span th:text="${wish.price + ' DKK'}">Price</span></p>
             <p><strong>Description:</strong> <span th:text="${wish.description}">Description</span></p>
-
             <div class="tags">
-                <p><strong>Tags:</strong></p>
+                <p><strong>Sustainability tags:</strong></p>
                 <div th:each="tag : ${wish.tagIds}" class="tag">
                         <span th:each="avaliabletag : ${avaliableTags}" th:if="${tag == avaliabletag.tag_id}">
                             <span th:text="${avaliabletag.tag_name}"></span>
@@ -31,10 +30,8 @@
                 <input type="checkbox" name="giftWish">
                 Gift Wish
             </label>
-            <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="post" style="display:inline;">
-                <button type="submit" class="btn">Delete wish</button>
-            </form>
         </li>
+
     </ul>
 
     <div class="button-container">
