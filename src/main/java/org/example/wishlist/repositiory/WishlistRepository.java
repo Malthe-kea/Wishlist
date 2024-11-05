@@ -98,7 +98,6 @@ public class WishlistRepository implements IWishlistRepository {
                 "JOIN user u ON u.user_id = t.user_id WHERE r.role_name = 'giftwisher' AND t.wishlist_id = ?";
         String sqlwishes = "SELECT wish_name, wish_description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
         String sqlTags = "SELECT tag_id FROM wish_tag WHERE wish_id=?";
-        System.out.println("recived wishliid in getuserwishlistbywishlistid " + wishlist_id);
         List<Integer> tagIds = new ArrayList<>();
         UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
         ArrayList<WishTagDTO> wishTagDTOS = new ArrayList<>();
@@ -119,8 +118,6 @@ public class WishlistRepository implements IWishlistRepository {
                 int user_id = resultSet.getInt("user_id");
                 String role_name = resultSet.getString("role_name");
 
-                System.out.println("fra getuserwishlistbywishlist har jeg wishlistId: " + wishlist_id);
-
                 PreparedStatement statement2 = con.prepareStatement(sqlwishes);
                 statement2.setInt(1, wishlist_id);
                 ResultSet resultSet2 = statement2.executeQuery();
@@ -133,8 +130,6 @@ public class WishlistRepository implements IWishlistRepository {
                     int price = resultSet2.getInt("price");
                     int wish_id = resultSet2.getInt("wish_id");
 
-                    System.out.println("fra getuserwishlistbyuserid har jeg wish_id: " + wish_id);
-
                     statement3.setInt(1, wish_id);
                     ResultSet resultSet3 = statement3.executeQuery();
                     while (resultSet3.next()) {
@@ -142,11 +137,9 @@ public class WishlistRepository implements IWishlistRepository {
                         tagIds.add(tagid);
                     }
                     wishTagDTO = new WishTagDTO(wish_name, wish_description, price, wish_id, tagIds, wishlist_id);
-                    System.out.println("dette er mit wishTagDto objekt " + wishTagDTO); // test
                     wishTagDTOS.add(wishTagDTO);
                 }
                 userWishlistDTO = new UserWishlistDTO(name, wishlist_name, wishlist_id, user_id, role_id, role_name, wishTagDTOS);
-                System.out.println("dette er mit userWishlistDTO objekt " + userWishlistDTO); //test
             }
 
         } catch (SQLException e) {
@@ -388,7 +381,6 @@ public class WishlistRepository implements IWishlistRepository {
                 "WHERE r.role_name = 'giftwisher' AND t.user_id = ?";
         String sqlwishes = "SELECT wish_name, wish_description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
         String sqlTags = "SELECT tag_id FROM wish_tag WHERE wish_id=?";
-        System.out.println("recived userid in getuserwishlistbyuserid " + user_id + "");
         List<Integer> tagIds = new ArrayList<>();
         UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
         ArrayList<WishTagDTO> wishTagDTOS = new ArrayList<>();
@@ -409,8 +401,6 @@ public class WishlistRepository implements IWishlistRepository {
                 int role_id = resultSet.getInt("role_id");
                 String role_name = resultSet.getString("role_name");
 
-                System.out.println("fra getuserwishlistbyuserid har jeg wishlistId: " + wishlist_id);
-
                 PreparedStatement statement2 = con.prepareStatement(sqlwishes);
                 statement2.setInt(1, wishlist_id);
                 ResultSet resultSet2 = statement2.executeQuery();
@@ -423,8 +413,6 @@ public class WishlistRepository implements IWishlistRepository {
                     int price = resultSet2.getInt("price");
                     int wish_id = resultSet2.getInt("wish_id");
 
-                    System.out.println("fra getuserwishlistbyuserid har jeg wish_id: " + wish_id);
-
                     statement3.setInt(1, wish_id);
                     ResultSet resultSet3 = statement3.executeQuery();
                     while (resultSet3.next()) {
@@ -432,11 +420,9 @@ public class WishlistRepository implements IWishlistRepository {
                         tagIds.add(tagid);
                     }
                     wishTagDTO = new WishTagDTO(wish_name, wish_description, price, wish_id, tagIds, wishlist_id);
-                    System.out.println("dette er mit wishTagDto objekt " + wishTagDTO); // test
                     wishTagDTOS.add(wishTagDTO);
                 }
                 userWishlistDTO = new UserWishlistDTO(name, wishlist_name, wishlist_id, user_id, role_id, role_name, wishTagDTOS);
-                System.out.println("dette er mit userWishlistDTO objekt " + userWishlistDTO); //test
             }
 
         } catch (SQLException e) {
