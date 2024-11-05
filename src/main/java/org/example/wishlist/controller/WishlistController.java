@@ -52,18 +52,33 @@ public class WishlistController {
     }
 
     @GetMapping("/addWish")
-    public String addWish(Model model) {
-        WishTagDTO wishTagDTO = new WishTagDTO();
-        model.addAttribute("wishdto", wishTagDTO);
+    public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
+        WishTagDTO wishdto = new WishTagDTO();
+        if (wishlistId != null) {
+            wishdto.setWishlist_id(wishlistId);
+        } else {
+            int defaultWishlistId = 1; //skal slettes senere
+            wishdto.setWishlist_id(defaultWishlistId);
+        }
+
+        model.addAttribute("wishdto", wishdto);
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
         return "addWish";
     }
 
+
     @PostMapping("/addWish")
-    public String addAttraction(@ModelAttribute WishTagDTO wishtagdto, Model model) throws Exception {
+    public String addWish(@ModelAttribute WishTagDTO wishtagdto, Model model) {
+        if (wishtagdto.getWishlist_id() == 0) {
+            return "addWish";
+        }
+        System.out.println("Wishlist ID: " + wishtagdto.getWishlist_id()); // Log wishlist_id
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistById(wishtagdto.getWishlist_id());
+        if (userWishlistDTO == null || userWishlistDTO.getRole_id() == null) {
+            return "addWish";
+        }
         wishlistService.addWish(wishtagdto, userWishlistDTO);
-        return "redirect:/show-wishlist";
+        return "redirect:/showallwishes?userId=" + userWishlistDTO.getUser_id();
     }
 
     @GetMapping("/login")
@@ -97,7 +112,6 @@ public class WishlistController {
         if(wishTagDTO == null){
             throw new RuntimeException("wish is null");
         }
-
         return "delete-wish";
     }
 
@@ -105,8 +119,9 @@ public class WishlistController {
     public String deleteWishlistItem(@RequestParam int wishTagDTOId) {
         WishTagDTO w = wishlistService.getWishById(wishTagDTOId);
         wishlistService.deleteDTOWish(w.getWish_id());
+       UserWishlistDTO u = wishlistService.getUserwishlistById(w.getWishlist_id());
 
-        return "show-wishlist";
+       return "redirect:/showallwishes?userId=" + u.getUser_id();
     }
 
 }
