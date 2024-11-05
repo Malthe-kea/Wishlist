@@ -16,6 +16,7 @@
         <span th:text="${wish.wish_name}">Wish name</span>:
         <span th:text="${wish.price + ' DKK'}">Price</span>
         <span th:text="${wish.description}">Description</span>
+
         <p>Tags:</p>
         <div th:each="tag : ${wish.tagIds}">
             <div th:each="avaliabletag : ${avaliableTags}">
@@ -24,6 +25,11 @@
                 </div>
             </div>
         </div>
+        <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="post" style="display:inline;">
+            <button type="submit" class="btn">Slet ønske</button>
+        </form>
+
+
     </li>
 </ul>
 <td>

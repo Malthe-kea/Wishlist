@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Attraction Deleted</title>
-  <link rel="stylesheet" th:href="@{/stylesheetTouristGuide.css}">
+  <link rel="stylesheet" th:href="@{/stylesheet.css}">
 </head>
 <body>
 <h1>Are you sure you want to delete this wish?</h1>
-<form th:action="@{/delete}" method="post">
-  <input type="hidden" name="name" th:value="${wish.wish_name}">
+<form th:action="@{/deleteWish}" method="post">
+  <input type="hidden" name="wishTagDTOId" th:value="${wishTagDTOId}">
   <button type="submit" class="btn">Delete</button>
 </form>
-<a th:href="@{/}" class="btn">Back</a>
+<a th:href="@{/delete-wish.html}" class="btn">Back</a>
 </body>
 </html>
