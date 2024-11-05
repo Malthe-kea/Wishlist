@@ -94,6 +94,7 @@ public class WishlistController {
     @GetMapping("/showallwishes")
     public String showAllDTOWishes(@RequestParam int userId, Model model) {
         System.out.println("show all wishes has userid: " + userId);
+        System.out.println(userId);
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
         System.out.println(userWishlistDTO); //den er null???
         model.addAttribute("userWishlistDTO", userWishlistDTO);
@@ -113,13 +114,15 @@ public class WishlistController {
         return "show-wish";
     }
 
-
-    //DENNE METODE VIRKER!
-    @PostMapping("/{wish_id}/delete")
+    @GetMapping("/{wish_id}/delete")
     public String getWishToDelete(@PathVariable int wish_id, Model model) {
         WishTagDTO wishTagDTO = wishlistService.getWishById(wish_id);
         model.addAttribute("wishTagDTOId", wishTagDTO.getWish_id());
         model.addAttribute("wishTagDTOP", wishTagDTO);
+        UserWishlistDTO u = wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id());
+        model.addAttribute("userWishlistDTO", u);
+        model.addAttribute("userId", u.getUser_id());
+
         if(wishTagDTO == null){
             throw new RuntimeException("wish is null");
         }
