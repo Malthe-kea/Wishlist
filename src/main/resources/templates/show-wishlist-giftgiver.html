@@ -9,7 +9,7 @@
 <body>
 
 <header>
-    <h1>Welcome to Your Wishlist <span th:text="${user}"></span></h1>
+    <h1>Welcome to the wishes of: <span th:text="${user}"></span></h1>
 </header>
 
 <main>
@@ -27,13 +27,13 @@
                         </span>
                 </div>
             </div>
-            <form th:action="@{'/' + ${wish.wish_id} + '/show'}" method="post" style="display:inline;">
-                <button type="submit">Show wish</button>
+            <label>
+                <input type="checkbox" name="giftWish">
+                Gift Wish
+            </label>
+            <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="post" style="display:inline;">
+                <button type="submit" class="btn">Delete wish</button>
             </form>
-          <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="get" style="display:inline;">
-            <button type="submit" class="btn">Delete wish</button>
-        </form>
-
         </li>
     </ul>
 

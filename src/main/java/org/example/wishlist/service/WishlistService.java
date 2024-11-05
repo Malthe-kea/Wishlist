@@ -19,6 +19,9 @@ public class WishlistService {
     public WishlistService(ApplicationContext context, @Value("${department.repository.impl}") String impl) {
         wishlistRepository = (IWishlistRepository) context.getBean(impl);
     }
+    public String getRoleNameById(int role_id) {
+        return wishlistRepository.getRoleNameById(role_id);
+    }
     public UserWishlistDTO getUserwishlistById(int wishlist_id) {
         return wishlistRepository.getUserwishlistByWishlistId(wishlist_id);
     }

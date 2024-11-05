@@ -15,6 +15,8 @@ public interface IWishlistRepository {
     //READ
     public List<User> getAllUsers();
 
+    public String getRoleNameById(int role_id);
+
     public UserWishlistDTO getUserwishlistByUserId(int user_id);
 
     public String getUserNameById(int userId);

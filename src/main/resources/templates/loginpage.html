@@ -8,19 +8,14 @@
 <body>
 <h1>Login</h1>
 
-<!-- Vis besked, hvis der er en -->
-<div th:if="${message}" style="color: green;">
-    <p th:text="${message}"></p>
-</div>
-
-<form th:action="@{/login}" method="get">
+<form th:action="@{/login}" method="post">
     <label for="userId">Select User:</label>
     <select name="userId" id="userId" required>
         <option th:each="user : ${users}" th:value="${user.user_id}" th:text="${user.name}"></option>
     </select>
 
     <label for="role">Select Role:</label>
-    <select name="role" id="role" required>
+    <select name="role_id" id="role" required>
         <option th:each="role : ${roles}" th:value="${role.role_id}" th:text="${role.role_name}"></option>
     </select>
 

@@ -1,8 +1,6 @@
 package org.example.wishlist.controller;
 
 import org.example.wishlist.model.UserWishlistDTO;
-
-import org.example.wishlist.model.Wish;
 import org.example.wishlist.model.WishTagDTO;
 import org.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
@@ -26,22 +24,28 @@ public class WishlistController {
     }
 
     @GetMapping("/")
-    public String welcome(Model model) {
+    public String login(Model model) {
         model.addAttribute("users", wishlistService.getAllUsers());
         model.addAttribute("roles", wishlistService.getAllRoles());
-        //tjekker om der er bedsked i model
-        if (model.containsAttribute("message")) {
-            model.addAttribute("message", model.getAttribute("message"));
-        }
         return "loginpage";
     }
 
-    @GetMapping("/createUser")
-    public String createUser(Model model) {
-        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+    @GetMapping("/showallwishesAsGiftgiver")
+    public String showAllDTOWishesAsGiftGiver(@RequestParam int userId,Model model) {
+        UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
+        System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);
-        return "createUser";
+        model.addAttribute("user", wishlistService.getUserNameById(userId));
+        model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
+        return "show-wishlist-giftgiver";
     }
+    @GetMapping("/login")
+    public String login(@RequestParam String role, @RequestParam int userId, Model model) {
+        model.addAttribute("role", role);
+        model.addAttribute("userId", userId);
+        return "redirect:/showallwishes?userId=" + userId;
+    }
+
 
     @PostMapping("/saveCreatedUser")
     public String saveCreatedUser(@ModelAttribute UserWishlistDTO userWishlistDTO, Model model, String name) {
@@ -49,6 +53,21 @@ public class WishlistController {
         // Tilføj en besked til model
         model.addAttribute("message", "Bruger oprettet! Du kan nu logge ind.");
         return "redirect:/login?userId=" + userWishlistDTO.getUser_id() + "&role=" + userWishlistDTO.getRole_id();
+    }
+    @PostMapping("/login")
+    public String loginUser(@RequestParam int userId, @RequestParam int role_id, Model model) {
+        String roleName = wishlistService.getRoleNameById(role_id);
+        if (roleName.equals("giftwisher")) {
+            return "redirect:/showallwishes?userId=" + userId;
+        } else {
+            return "redirect:/showallwishesAsGiftgiver?userId=" + userId;
+        }
+    }
+    @GetMapping("/createUser")
+    public String createUser(Model model) {
+        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+        model.addAttribute("userWishlistDTO", userWishlistDTO);
+        return "createUser";
     }
 
     @GetMapping("/addWish")
@@ -81,21 +100,10 @@ public class WishlistController {
         return "redirect:/showallwishes?userId=" + userWishlistDTO.getUser_id();
     }
 
-    @GetMapping("/login")
-    public String login(@RequestParam String role, @RequestParam int userId, Model model) {
-        System.out.println("Received userId: " + userId);
-        System.out.println("Received role: " + role);
-        model.addAttribute("role", role);
-        model.addAttribute("userId", userId);
-        return "redirect:/showallwishes?userId=" + userId + "&role=" + role;
-    }
-
-
     @GetMapping("/showallwishes")
-    public String showAllDTOWishes(@RequestParam int userId, Model model) {
-        System.out.println("show all wishes has userid: " + userId);
+    public String showAllDTOWishes(@RequestParam int userId,Model model) {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
-        System.out.println(userWishlistDTO); //den er null???
+        System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);
         model.addAttribute("user", wishlistService.getUserNameById(userId));
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
@@ -124,19 +132,19 @@ public class WishlistController {
         model.addAttribute("userWishlistDTO", u);
         model.addAttribute("userId", u.getUser_id());
 
-        if(wishTagDTO == null){
+        model.addAttribute("userWishlistDTO", wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id()));
+        if (wishTagDTO == null) {
             throw new RuntimeException("wish is null");
         }
         return "delete-wish";
     }
 
-    @PostMapping ("/deleteWish")
+    @PostMapping("/deleteWish")
     public String deleteWishlistItem(@RequestParam int wishTagDTOId) {
         WishTagDTO w = wishlistService.getWishById(wishTagDTOId);
         wishlistService.deleteDTOWish(w.getWish_id());
-       UserWishlistDTO u = wishlistService.getUserwishlistById(w.getWishlist_id());
+        UserWishlistDTO u = wishlistService.getUserwishlistById(w.getWishlist_id());
 
-       return "redirect:/showallwishes?userId=" + u.getUser_id();
+        return "redirect:/showallwishes?userId=" + u.getUser_id();
     }
-
 }
