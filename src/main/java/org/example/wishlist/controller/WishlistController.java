@@ -94,7 +94,6 @@ public class WishlistController {
     @GetMapping("/showallwishes")
     public String showAllDTOWishes(@RequestParam int userId, Model model) {
         System.out.println("show all wishes has userid: " + userId);
-        System.out.println(userId);
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
         System.out.println(userWishlistDTO); //den er null???
         model.addAttribute("userWishlistDTO", userWishlistDTO);
