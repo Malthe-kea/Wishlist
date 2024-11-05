@@ -99,7 +99,7 @@ public class WishlistRepository implements IWishlistRepository {
                 "JOIN role r ON r.role_id = t.role_id " +
                 "JOIN user u ON u.user_id = t.user_id " + // JOIN referere til u.name
                 "WHERE t.wishlist_id = ?";
-        String sqlwishes = "SELECT wish_name, description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
+        String sqlwishes = "SELECT wish_name, wish_description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
         String sqlTags = "SELECT tag_id FROM wish_tag WHERE wish_id=?";
 
         List<Integer> tagIds = new ArrayList<>();
@@ -111,7 +111,7 @@ public class WishlistRepository implements IWishlistRepository {
             statement.setInt(1, wishlist_id);
 
             PreparedStatement statement2 = con.prepareStatement(sqlwishes);
-            statement.setInt(1, wishlist_id);
+            statement2.setInt(1, wishlist_id);
 
             PreparedStatement statement3 = con.prepareStatement(sqlTags);
 
@@ -131,7 +131,7 @@ public class WishlistRepository implements IWishlistRepository {
                 List<Integer> tags = new ArrayList<>();
                 while (resultSet2.next()) {
                     String wish_name = resultSet2.getString("wish_name");
-                    String description = resultSet.getString("description");
+                    String description = resultSet.getString("wish_description");
                     int price = resultSet2.getInt("price");
                     int wish_id = resultSet2.getInt("wish_id");
                     statement3.setInt(1, wish_id);
@@ -155,7 +155,7 @@ public class WishlistRepository implements IWishlistRepository {
 
     @Override
     public void addWish(WishTagDTO w, UserWishlistDTO uw) {
-        String sqlString = "INSERT INTO wish(wish_name, description, price, wishlist_id, role_id, user_id, wish_id) VALUES(?,?,?,?,?,?,?)";
+        String sqlString = "INSERT INTO wish(wish_name, wish_description, price, wishlist_id, role_id, user_id, wish_id) VALUES(?,?,?,?,?,?,?)";
         String sqlTags = "INSERT INTO wish_tag(tag_id, wish_id) VALUES(?,?)";
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
             System.out.println(dbUrl + " " + username + " " + password);
@@ -164,10 +164,10 @@ public class WishlistRepository implements IWishlistRepository {
             statement.setString(1, w.getWish_name());
             statement.setString(2, w.getDescription());
             statement.setDouble(3, w.getPrice());
-            statement.setDouble(4, uw.getWishlist_id());
-            statement.setDouble(5, uw.getRole_id());
-            statement.setDouble(6, uw.getUser_id());
-            statement.setDouble(7, w.getWish_id());
+            statement.setInt(4, uw.getWishlist_id());
+            statement.setInt(5, uw.getRole_id());
+            statement.setInt(6, uw.getUser_id());
+            statement.setInt(7, w.getWish_id());
 //                System.out.println("SQL query: " + sqlString);
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
@@ -190,7 +190,7 @@ public class WishlistRepository implements IWishlistRepository {
     @Override
     public List<WishTagDTO> getAllDTOWishes() {
         List<WishTagDTO> wishes = new ArrayList<>();
-        String sqlString = "SELECT wish_name, description, price, wish_id, user_id, role_id, wishlist_id FROM wish";
+        String sqlString = "SELECT wish_name, wish_description, price, wish_id, user_id, role_id, wishlist_id FROM wish";
         String sqlString2 = "SELECT tag_id FROM wish_tag WHERE wish_id = ?";
 
         try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
@@ -199,7 +199,7 @@ public class WishlistRepository implements IWishlistRepository {
 
             while (resultSet.next()) {
                 String wishName = resultSet.getString("wish_name");
-                String description = resultSet.getString("description");
+                String description = resultSet.getString("wish_description");
                 int price = resultSet.getInt("price");
                 int wishId = resultSet.getInt("wish_id");
                 int userId = resultSet.getInt("user_id");
@@ -423,7 +423,9 @@ public class WishlistRepository implements IWishlistRepository {
         String sqlInsertWishlist = "INSERT INTO wishlist(wishlist_name, user_id, role_id) VALUES (?,?,?)";
         String sqlInsertUserRole = "INSERT INTO user_role(user_id, role_id) VALUES (?,?)";
 
-        try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim());
             con.setAutoCommit(false);
 
             // Insert user
@@ -435,13 +437,13 @@ public class WishlistRepository implements IWishlistRepository {
             if (resultSet1.next()) {
                 int generatedUserId = resultSet1.getInt(1); // Get the generated user_id
 
-                // Insert into user_role table
+                // Insert ind i user_role table
                 PreparedStatement statement3 = con.prepareStatement(sqlInsertUserRole);
                 statement3.setInt(1, generatedUserId);
                 statement3.setInt(2, uw.getRole_id());
                 statement3.executeUpdate();
 
-                // Insert into wishlist table
+                // Insert ind i wishlist table
                 PreparedStatement statement2 = con.prepareStatement(sqlInsertWishlist);
                 statement2.setString(1, uw.getWishlist_name());
                 statement2.setInt(2, generatedUserId); // Use the generated user_id
@@ -450,8 +452,23 @@ public class WishlistRepository implements IWishlistRepository {
             }
 
             con.commit();
-        } catch (SQLException rollbackEx) {
-            logger.error("Error occurred during rollback", rollbackEx);
+        } catch (SQLException e) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException rollbackEx) {
+                    logger.error("Error occurred during rollback", rollbackEx);
+                }
+            }
+            logger.error("SQL exception occurred", e);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException closeEx) {
+                    logger.error("Error closing connection", closeEx);
+                }
+            }
         }
     }
 
