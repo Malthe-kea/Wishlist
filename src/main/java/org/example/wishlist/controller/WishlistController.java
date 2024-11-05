@@ -102,6 +102,17 @@ public class WishlistController {
         return "show-wishlist";
     }
 
+    @PostMapping("/{wish_id}/show")
+    public String showWish(@PathVariable int wish_id, Model model) {
+        WishTagDTO wishTagDTO = wishlistService.getWishById(wish_id);
+        if (wishTagDTO == null) {
+            throw new RuntimeException("Wish not found for id: " + wish_id);
+        }
+        model.addAttribute("wishTagDTOId", wishTagDTO.getWish_id());
+        model.addAttribute("wishTagDTOP", wishTagDTO);
+        return "show-wish";
+    }
+
 
     //DENNE METODE VIRKER!
     @PostMapping("/{wish_id}/delete")
