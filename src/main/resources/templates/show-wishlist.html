@@ -15,18 +15,8 @@
 <main>
     <ul class="wishlist">
         <li th:each="wish : ${userWishlistDTO.wishes}" class="wish-item">
-            <h2 th:text="${wish.wish_name}">Wish name</h2>
-            <p><strong>Price:</strong> <span th:text="${wish.price + ' DKK'}">Price</span></p>
-            <p><strong>Description:</strong> <span th:text="${wish.description}">Description</span></p>
+            <h2 th:text="'Wish: ' + ${wish.wish_name}">Wish name</h2>
 
-            <div class="tags">
-                <p><strong>Tags:</strong></p>
-                <div th:each="tag : ${wish.tagIds}" class="tag">
-                        <span th:each="avaliabletag : ${avaliableTags}" th:if="${tag == avaliabletag.tag_id}">
-                            <span th:text="${avaliabletag.tag_name}"></span>
-                        </span>
-                </div>
-            </div>
             <form th:action="@{'/' + ${wish.wish_id} + '/show'}" method="post" style="display:inline;">
                 <button type="submit">Show wish</button>
             </form>

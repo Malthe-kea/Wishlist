@@ -37,7 +37,6 @@
             <label th:for="${tag.tag_id}" th:text="${tag.tag_name}"></label><br>
         </th:block>
     </div>
-    <p>Wishlist ID (hidden field value): <span th:text="${wishdto.wishlist_id}"></span></p>
 
     <input type="hidden" th:field="*{wishlist_id}" th:value="${wishdto.wishlist_id}" />
     <input type="hidden" th:field="*{wish_id}" th:value="${wishdto.wish_id}" />
