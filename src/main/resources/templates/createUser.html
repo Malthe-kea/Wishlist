@@ -16,17 +16,14 @@
     <input type="text" id="wishlistName" name="wishlistName" th:field="*{wishlist_name}" placeholder="Enter the name of your new wishlist" required>
     <br>
 
-    <label for="role">Select Role:</label>
-    <select id="role" name="role_id" th:field="*{role_id}" required>
-        <option value="">Select a role</option>
-        <option value="1">Giftwisher</option>
-        <option value="2">Giftgiver</option>
-    </select>
-    <br>
+    <input type="hidden" id="role" name="role_id" value="1">
 
+
+    <br>
     <button type="submit">Create</button>
+    <form th:action="@{/}" method="get">
+        <button type="submit">Back</button>
+    </form>
 </form>
 </body>
 </html>
-
-

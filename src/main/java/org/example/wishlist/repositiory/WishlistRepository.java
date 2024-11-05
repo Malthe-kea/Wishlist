@@ -94,67 +94,67 @@ public class WishlistRepository implements IWishlistRepository {
 
     @Override
     public UserWishlistDTO getUserwishlistByWishlistId(int wishlist_id) {
-            String sqlString = "SELECT t.wishlist_name, t.wishlist_id, t.user_id, t.role_id, r.role_name, u.name FROM wishlist t JOIN role r ON r.role_id = t.role_id " +
-                    "JOIN user u ON u.user_id = t.user_id WHERE r.role_name = 'giftwisher' AND t.wishlist_id = ?";
-            String sqlwishes = "SELECT wish_name, wish_description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
-            String sqlTags = "SELECT tag_id FROM wish_tag WHERE wish_id=?";
-            System.out.println("recived wishliid in getuserwishlistbywishlistid " + wishlist_id);
-            List<Integer> tagIds = new ArrayList<>();
-            UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
-            ArrayList<WishTagDTO> wishTagDTOS = new ArrayList<>();
-            WishTagDTO wishTagDTO;
-            try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
-                PreparedStatement statement = con.prepareStatement(sqlString);
-                statement.setInt(1, wishlist_id);
+        String sqlString = "SELECT t.wishlist_name, t.wishlist_id, t.user_id, t.role_id, r.role_name, u.name FROM wishlist t JOIN role r ON r.role_id = t.role_id " +
+                "JOIN user u ON u.user_id = t.user_id WHERE r.role_name = 'giftwisher' AND t.wishlist_id = ?";
+        String sqlwishes = "SELECT wish_name, wish_description, price, wish_id, wishlist_id FROM wish WHERE wishlist_id=?";
+        String sqlTags = "SELECT tag_id FROM wish_tag WHERE wish_id=?";
+        System.out.println("recived wishliid in getuserwishlistbywishlistid " + wishlist_id);
+        List<Integer> tagIds = new ArrayList<>();
+        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+        ArrayList<WishTagDTO> wishTagDTOS = new ArrayList<>();
+        WishTagDTO wishTagDTO;
+        try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+            PreparedStatement statement = con.prepareStatement(sqlString);
+            statement.setInt(1, wishlist_id);
 
 
-                PreparedStatement statement3 = con.prepareStatement(sqlTags);
+            PreparedStatement statement3 = con.prepareStatement(sqlTags);
 
-                ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
-                if (resultSet.next()) {
-                    String name = resultSet.getString("name");
-                    String wishlist_name = resultSet.getString("wishlist_name");
-                    int role_id = resultSet.getInt("role_id");
-                    int user_id = resultSet.getInt("user_id");
-                    String role_name = resultSet.getString("role_name");
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String wishlist_name = resultSet.getString("wishlist_name");
+                int role_id = resultSet.getInt("role_id");
+                int user_id = resultSet.getInt("user_id");
+                String role_name = resultSet.getString("role_name");
 
-                    System.out.println("fra getuserwishlistbywishlist har jeg wishlistId: " + wishlist_id);
+                System.out.println("fra getuserwishlistbywishlist har jeg wishlistId: " + wishlist_id);
 
-                    PreparedStatement statement2 = con.prepareStatement(sqlwishes);
-                    statement2.setInt(1, wishlist_id);
-                    ResultSet resultSet2 = statement2.executeQuery();
+                PreparedStatement statement2 = con.prepareStatement(sqlwishes);
+                statement2.setInt(1, wishlist_id);
+                ResultSet resultSet2 = statement2.executeQuery();
 
-                    wishTagDTOS = new ArrayList<>();
+                wishTagDTOS = new ArrayList<>();
 
-                    while (resultSet2.next()) {
-                        String wish_name = resultSet2.getString("wish_name");
-                        String wish_description = resultSet2.getString("wish_description");
-                        int price = resultSet2.getInt("price");
-                        int wish_id = resultSet2.getInt("wish_id");
+                while (resultSet2.next()) {
+                    String wish_name = resultSet2.getString("wish_name");
+                    String wish_description = resultSet2.getString("wish_description");
+                    int price = resultSet2.getInt("price");
+                    int wish_id = resultSet2.getInt("wish_id");
 
-                        System.out.println("fra getuserwishlistbyuserid har jeg wish_id: " + wish_id);
+                    System.out.println("fra getuserwishlistbyuserid har jeg wish_id: " + wish_id);
 
-                        statement3.setInt(1, wish_id);
-                        ResultSet resultSet3 = statement3.executeQuery();
-                        while (resultSet3.next()) {
-                            int tagid = resultSet3.getInt("tag_id");
-                            tagIds.add(tagid);
-                        }
-                        wishTagDTO = new WishTagDTO(wish_name, wish_description, price, wish_id, tagIds, wishlist_id);
-                        System.out.println("dette er mit wishTagDto objekt " + wishTagDTO); // test
-                        wishTagDTOS.add(wishTagDTO);
+                    statement3.setInt(1, wish_id);
+                    ResultSet resultSet3 = statement3.executeQuery();
+                    while (resultSet3.next()) {
+                        int tagid = resultSet3.getInt("tag_id");
+                        tagIds.add(tagid);
                     }
-                    userWishlistDTO = new UserWishlistDTO(name, wishlist_name, wishlist_id, user_id, role_id, role_name, wishTagDTOS);
-                    System.out.println("dette er mit userWishlistDTO objekt " + userWishlistDTO); //test
+                    wishTagDTO = new WishTagDTO(wish_name, wish_description, price, wish_id, tagIds, wishlist_id);
+                    System.out.println("dette er mit wishTagDto objekt " + wishTagDTO); // test
+                    wishTagDTOS.add(wishTagDTO);
                 }
-
-            } catch (SQLException e) {
-                logger.error("SQL exception occurred", e);
+                userWishlistDTO = new UserWishlistDTO(name, wishlist_name, wishlist_id, user_id, role_id, role_name, wishTagDTOS);
+                System.out.println("dette er mit userWishlistDTO objekt " + userWishlistDTO); //test
             }
 
-            return userWishlistDTO;
+        } catch (SQLException e) {
+            logger.error("SQL exception occurred", e);
         }
+
+        return userWishlistDTO;
+    }
 
 
     @Override
@@ -217,7 +217,6 @@ public class WishlistRepository implements IWishlistRepository {
             logger.error("SQL exception occurred", e);
         }
     }
-
 
 
     @Override
@@ -449,6 +448,25 @@ public class WishlistRepository implements IWishlistRepository {
 
 
     @Override
+    public String getRoleNameById(int role_id) {
+        String sqlRoleName = "SELECT role_name FROM role WHERE role_id=?";
+        String role_name = null;
+        try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+            PreparedStatement statement = con.prepareStatement(sqlRoleName);
+            statement.setInt(1, role_id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                role_name = resultSet.getString("role_name");
+            }
+
+        } catch (SQLException e) {
+            logger.error("SQL exception occurred", e);
+        }
+        return role_name;
+    }
+
+    @Override
     public void createUserAndWishlistDTO(String user_name, UserWishlistDTO uw) {
         logger.info("Received role_id: {}", uw.getRole_id());
 
@@ -503,6 +521,8 @@ public class WishlistRepository implements IWishlistRepository {
                 }
             }
         }
+
+
     }
 
 }
