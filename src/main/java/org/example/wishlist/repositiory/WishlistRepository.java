@@ -303,7 +303,11 @@ public class WishlistRepository implements IWishlistRepository {
     }
 
     @Override
-    public void editWish(int wish_id) {
+    public void editWish(int wish_id, UserWishlistDTO uw, WishTagDTO w) {
+        if (uw.getRole_id().equals(2)){
+
+        };
+
 
     }
 
