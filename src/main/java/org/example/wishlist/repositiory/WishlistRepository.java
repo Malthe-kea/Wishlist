@@ -306,7 +306,7 @@ public class WishlistRepository implements IWishlistRepository {
 
         PreparedStatement updateWishStatement = null;
         PreparedStatement updateTagStatement = null;
-
+//TEST
         ResultSet resultSet = null;
         ResultSet resultSet2 = null;
 
