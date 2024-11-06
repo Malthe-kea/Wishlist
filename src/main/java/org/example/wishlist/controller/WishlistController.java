@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+//hejhej
 @Controller
 @RequestMapping("/")
 public class WishlistController {
@@ -87,10 +87,10 @@ public class WishlistController {
 //        return "addWish";
 //    }
     @GetMapping("/addWish")
-    public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
+    public String addWish(@RequestParam(required = true) Integer wishlist_id, Model model) {
         WishTagDTO wishdto = new WishTagDTO();
-        if (wishlistId != null) {
-            wishdto.setWishlist_id(wishlistId);
+        if (wishlist_id != null) {
+            wishdto.setWishlist_id(wishlist_id);
         } else {
             int defaultWishlistId = 1; //skal slettes senere
             wishdto.setWishlist_id(defaultWishlistId);
@@ -117,7 +117,6 @@ public class WishlistController {
     @GetMapping("/showallwishes")
     public String showAllDTOWishes(@RequestParam int userId, Model model) {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
-        System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);
         model.addAttribute("user", wishlistService.getUserNameById(userId));
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());

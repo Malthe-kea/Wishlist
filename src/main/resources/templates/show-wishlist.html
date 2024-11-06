@@ -29,6 +29,7 @@
 
     <div class="button-container">
         <form th:action="@{/addWish}" method="get">
+            <input type="hidden" name="wishlist_id" th:value="${userWishlistDTO.wishlist_id}" />
             <button type="submit">Add new Wish</button>
         </form>
         <form th:action="@{/}" method="get">
