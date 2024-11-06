@@ -29,6 +29,7 @@
 
     <!-- Sektion til generering af delingslink -->
     <div class="share-container">
+
         <form th:action="@{/generateShareLink}" method="get">
             <input type="hidden" name="wishlistId" th:value="${userWishlistDTO.wishlist_id}"/>
             <button type="submit">Generate Share Link</button>
