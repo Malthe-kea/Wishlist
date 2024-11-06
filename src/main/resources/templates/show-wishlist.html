@@ -27,6 +27,22 @@
         </li>
     </ul>
 
+    <!-- Sektion til generering af delingslink -->
+    <div class="share-container">
+        <form th:action="@{/generateShareLink}" method="get">
+            <input type="hidden" name="wishlistId" th:value="${userWishlistDTO.wishlist_id}"/>
+            <button type="submit">Generate Share Link</button>
+        </form>
+
+        <!-- Viser delingslinket efter det er genereret -->
+        <div th:if="${shareLink != null}">
+            <p>link to share wishlist:</p>
+            <input type="text" th:value="${shareLink}" readonly>
+            <button onclick="navigator.clipboard.writeText(this.previousElementSibling.value)">Kopier link</button>
+        </div>
+    </div>
+
+
     <div class="button-container">
         <form th:action="@{/addWish}" method="get">
             <button type="submit">Add new Wish</button>

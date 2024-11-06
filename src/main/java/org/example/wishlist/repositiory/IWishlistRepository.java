@@ -25,7 +25,8 @@ public interface IWishlistRepository {
 
     List<WishTagDTO> getAllDTOWishes();
 
-    List<Wish> getWishlistById(int wishlist_id);
+
+    public List<Wish> getWishlistById(int wishlist_id);
 
     List<Tag> getAvaliableTags();//se alle mulige tags
 
