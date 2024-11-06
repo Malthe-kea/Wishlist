@@ -214,11 +214,10 @@ public class WishlistController {
     }
 
     @PostMapping("/editWish")
-    public String editWish(@ModelAttribute UserWishlistDTO userWishlistDTO, WishTagDTO wishTagDTO) {
+    public String editWish(@ModelAttribute WishTagDTO wishTagDTO) {
         WishTagDTO w = wishlistService.getWishById(wishTagDTO.getWish_id());
         UserWishlistDTO u = wishlistService.getUserwishlistById(w.getWishlist_id());
-        wishlistService.editDTOwish(wishTagDTO, userWishlistDTO);
-
+        wishlistService.editDTOwish(wishTagDTO, u);
 
         return "redirect:/showallwishes?userId=" + u.getUser_id();
 
