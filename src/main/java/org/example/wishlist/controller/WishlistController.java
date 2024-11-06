@@ -73,6 +73,41 @@ public class WishlistController {
         return "createUser";
     }
 
+    @GetMapping("/generateShareLink")
+    public String generateShareLink(@RequestParam int wishlistId, Model model) {
+        // Tjekker "giftwisher" rolle
+        UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistById(wishlistId);
+        if (userWishlistDTO != null && "giftwisher".equals(userWishlistDTO.getRole_name())) {
+            String shareLink = "http://localhost:8080/viewSharedWishlist?wishlistId=" + wishlistId;
+            model.addAttribute("shareLink", shareLink);
+            model.addAttribute("userWishlistDTO", userWishlistDTO);
+            return "show-wishlist";
+        } else {
+            model.addAttribute("message", "You do not have permission to share this wishlist.");
+            return "error";
+        }
+    }
+
+
+
+    @GetMapping("/viewSharedWishlist")
+    public String viewSharedWishlist(@RequestParam int wishlistId, Model model) {
+        UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistById(wishlistId);
+
+        // Tjekker om wishlist exists
+        if (userWishlistDTO == null) {
+            model.addAttribute("message", "Wishlist not found.");
+            return "error";
+        }
+
+        model.addAttribute("userWishlistDTO", userWishlistDTO);
+
+        return "show-wishlist-giftgiver"; // View template for shared wishlist
+    }
+
+
+
+
     //    @GetMapping("/addWish")
 //    public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
 //        WishTagDTO wishdto = new WishTagDTO();
