@@ -34,7 +34,6 @@ public class WishlistController {
     @GetMapping("/showallwishesAsGiftgiver")
     public String showAllDTOWishesAsGiftGiver(@RequestParam int userId, Model model) throws SuperheroException {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
-        System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);
         model.addAttribute("user", wishlistService.getUserNameById(userId));
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
@@ -142,7 +141,6 @@ public class WishlistController {
     @GetMapping("/showallwishes")
     public String showAllDTOWishes(@RequestParam int userId, Model model) throws SuperheroException {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
-        System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);
         model.addAttribute("user", wishlistService.getUserNameById(userId));
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
