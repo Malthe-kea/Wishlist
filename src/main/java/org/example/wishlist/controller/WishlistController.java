@@ -185,7 +185,6 @@ public class WishlistController {
         model.addAttribute("userWishlistDTO", u);
         model.addAttribute("userId", u.getUser_id());
 
-        model.addAttribute("userWishlistDTO", wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id()));
         if (wishTagDTO == null) {
             throw new RuntimeException("wish is null");
         }
@@ -200,4 +199,29 @@ public class WishlistController {
 
         return "redirect:/showallwishes?userId=" + u.getUser_id();
     }
+
+    @GetMapping("/{wish_id}/edit")
+    public String editWish(@PathVariable int wish_id, Model model) {
+        WishTagDTO wishTagDTO = wishlistService.getWishById(wish_id);
+        model.addAttribute("wishTagDTO", wishTagDTO);
+        model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
+        UserWishlistDTO u = wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id());
+        model.addAttribute("userWishlistDTO", u);
+        model.addAttribute("userId", u.getUser_id());
+        model.addAttribute("userWishlistDTOId", wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id()));
+
+        return "edit-wish";
+    }
+
+    @PostMapping("/editWish")
+    public String editWish(@ModelAttribute UserWishlistDTO userWishlistDTO, WishTagDTO wishTagDTO) {
+        WishTagDTO w = wishlistService.getWishById(wishTagDTO.getWish_id());
+        UserWishlistDTO u = wishlistService.getUserwishlistById(w.getWishlist_id());
+        wishlistService.editDTOwish(wishTagDTO, userWishlistDTO);
+
+
+        return "redirect:/showallwishes?userId=" + u.getUser_id();
+
+    }
+
 }

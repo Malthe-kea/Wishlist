@@ -77,4 +77,8 @@ public class WishlistService {
     public void deleteDTOWish(int wish_id) {
         wishlistRepository.deleteDTOWish(wish_id);
     }
+
+    public void editDTOwish(WishTagDTO w, UserWishlistDTO userWishlistDTO) {
+        wishlistRepository.editWish( w, userWishlistDTO);
+    }
 }

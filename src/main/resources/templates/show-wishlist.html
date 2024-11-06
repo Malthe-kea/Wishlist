@@ -20,10 +20,12 @@
             <form th:action="@{'/' + ${wish.wish_id} + '/show'}" method="post" style="display:inline;">
                 <button type="submit">Show wish</button>
             </form>
-          <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="get" style="display:inline;">
-            <button type="submit" class="btn">Delete wish</button>
-        </form>
-
+            <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="get" style="display:inline;">
+                <button type="submit" class="btn">Delete wish</button>
+            </form>
+            <form th:action="@{'/' + ${wish.wish_id} + '/edit'}" method="get" style="display:inline;">
+                <button type="submit" class="btn"> Edit wish</button>
+            </form>
         </li>
     </ul>
 
@@ -46,7 +48,7 @@
 
     <div class="button-container">
         <form th:action="@{/addWish}" method="get">
-            <input type="hidden" name="wishlist_id" th:value="${userWishlistDTO.wishlist_id}" />
+            <input type="hidden" name="wishlist_id" th:value="${userWishlistDTO.wishlist_id}"/>
             <button type="submit">Add new Wish</button>
         </form>
         <form th:action="@{/}" method="get">

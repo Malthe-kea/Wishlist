@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="stylesheet.css">
+  <link th:href="@{/main.css}" rel="stylesheet">
+  <title>Rediger Ønske</title>
+</head>
+<body>
+<h1>Please update your wish</h1>
+<form th:action="@{/editWish}" th:object="${wishTagDTO}" method="post">
+  <label for="wish_name">Wish Name:</label>
+  <input id="wish_name" class="form-control"
+         type="text"
+         th:field="*{wish_name}"
+         placeholder="Enter wish name" />
+  <br>
+
+  <label for="description">Description:</label>
+  <input id="description" class="form-control"
+         type="text"
+         th:field="*{description}"
+         placeholder="Enter description" />
+  <br>
+
+  <label for="price">Price (in DKK):</label>
+  <input id="price" class="form-control"
+         type="number"
+         th:field="*{price}"
+         placeholder="Enter price" />
+  <br>
+
+  <label>Tags:</label>
+  <br>
+  <div>
+    <th:block th:each="tag : ${avaliableTags}">
+      <input type="checkbox" th:field="*{tagIds}" th:value="${tag.tag_id}"/>
+      <label th:for="${tag.tag_id}" th:text="${tag.tag_name}"></label><br>
+    </th:block>
+  </div>
+
+  <input type="hidden" th:field="*{wishlist_id}" th:value="${wishTagDTO.wishlist_id}" />
+  <input type="hidden" th:field="*{wish_id}" th:value="${wishTagDTO.wish_id}" />
+  <input type="hidden" name="userWishlistDTO" th:value="${userWishlistDTO}" />
+
+  <br>
+  <button type="submit">Edit wish</button>
+
+</form>
+
+
+<form th:action="@{/showallwishes}" method="get" style="display:inline;">
+  <input type="hidden" name="userId" th:value="${userWishlistDTO.getUser_id()}"/>
+  <input type="hidden" name="role" th:value="${userWishlistDTO.getRole_id()}"/>
+  <button type="submit" class="btn2">Back</button>
+</form>
+
+</body>
+</html>
