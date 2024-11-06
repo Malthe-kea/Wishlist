@@ -36,7 +36,7 @@ public interface IWishlistRepository {
     WishTagDTO getWishByID(int wish_id); //Se et specifikt ønske fra ID
 
     //UPDATE
-    void editWish(int wish_id, UserWishlistDTO uw, WishTagDTO w); //editer et specifikt ønske
+    void editWish(WishTagDTO w, UserWishlistDTO userWishlistDTO); //editer et specifikt ønske
 
     //DELETE
     void deleteDTOWish(int wish_id); //slet et ønske

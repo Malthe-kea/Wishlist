@@ -290,9 +290,7 @@ public class WishlistRepository implements IWishlistRepository {
 
                 while (resultSet2.next()) {
                     int tagid = resultSet2.getInt("tag_id");
-                    String tagname = resultSet2.getString("tag_name");
                     tagIDList.add(tagid);
-
                 }
                 wishTagDTO = new WishTagDTO(wishName, description, price, wishid, tagIDList, wishlist_id);
             }
@@ -303,12 +301,43 @@ public class WishlistRepository implements IWishlistRepository {
     }
 
     @Override
-    public void editWish(int wish_id, UserWishlistDTO uw, WishTagDTO w) {
-        if (uw.getRole_id().equals(2)){
+    public void editWish(WishTagDTO w, UserWishlistDTO userWishlistDTO) {
+        Connection connection = null;
 
-        };
+        PreparedStatement updateWishStatement = null;
+        PreparedStatement updateTagStatement = null;
+
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+
+        List<Integer> tagIdList = new ArrayList<>();
+
+        String sqlStringWish = "UPDATE wish SET wish_name = ?, wish_description = ?, price = ? WHERE wish_id = ? AND user_id = ?";
+        String sqlStringTag = "SELECT t.tag_id, t.tag_name FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
+
+        try {
+            connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim());
+
+            updateWishStatement = connection.prepareStatement(sqlStringWish);
+            updateWishStatement.setString(1,w.getWish_name());
+            updateWishStatement.setString(2,w.getDescription());
+            updateWishStatement.setInt(3, w.getPrice());
+            updateWishStatement.setInt(4, w.getWish_id());
+            updateWishStatement.setInt(5, userWishlistDTO.getUser_id());
+            updateWishStatement.executeUpdate();
 
 
+            updateTagStatement = connection.prepareStatement(sqlStringTag);
+            resultSet2 = updateTagStatement.executeQuery();
+
+            while (resultSet2.next()) {
+                int tagid = resultSet2.getInt("tag_id");
+                tagIdList.add(tagid);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
