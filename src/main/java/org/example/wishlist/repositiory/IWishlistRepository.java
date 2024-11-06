@@ -1,4 +1,5 @@
 package org.example.wishlist.repositiory;
+import org.example.wishlist.SuperheroException;
 import org.example.wishlist.model.*;
 
 import java.util.List;
@@ -17,14 +18,13 @@ public interface IWishlistRepository {
 
     public String getRoleNameById(int role_id);
 
-    public UserWishlistDTO getUserwishlistByUserId(int user_id);
+    public UserWishlistDTO getUserwishlistByUserId(int user_id) throws SuperheroException;
 
     public String getUserNameById(int userId);
 
     public List<Role> getAllRoles();
 
     List<WishTagDTO> getAllDTOWishes();
-
 
     public List<Wish> getWishlistById(int wishlist_id);
 

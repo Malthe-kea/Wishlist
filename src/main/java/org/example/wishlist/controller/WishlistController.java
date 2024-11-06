@@ -1,5 +1,6 @@
 package org.example.wishlist.controller;
 
+import org.example.wishlist.SuperheroException;
 import org.example.wishlist.model.UserWishlistDTO;
 import org.example.wishlist.model.WishTagDTO;
 import org.example.wishlist.service.WishlistService;
@@ -31,7 +32,7 @@ public class WishlistController {
     }
 
     @GetMapping("/showallwishesAsGiftgiver")
-    public String showAllDTOWishesAsGiftGiver(@RequestParam int userId, Model model) {
+    public String showAllDTOWishesAsGiftGiver(@RequestParam int userId, Model model) throws SuperheroException {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
         System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);
@@ -72,6 +73,11 @@ public class WishlistController {
         model.addAttribute("userWishlistDTO", userWishlistDTO);
         return "createUser";
     }
+    @ExceptionHandler(SuperheroException.class)
+    public String handleError(Model model, Exception exception) {
+        model.addAttribute("message",exception.getMessage());
+        return "error";
+    }
 
     @GetMapping("/generateShareLink")
     public String generateShareLink(@RequestParam int wishlistId, Model model) {
@@ -102,25 +108,9 @@ public class WishlistController {
 
         model.addAttribute("userWishlistDTO", userWishlistDTO);
 
-        return "show-wishlist-giftgiver"; // View template for shared wishlist
+        return "show-wishlist-giftgiver";
     }
 
-
-
-
-    //    @GetMapping("/addWish")
-//    public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
-//        WishTagDTO wishdto = new WishTagDTO();
-//        if (wishlistId != null) {
-//            wishdto.setWishlist_id(wishlistId);
-//        } else {
-//            int defaultWishlistId = 1; //skal slettes senere
-//            wishdto.setWishlist_id(defaultWishlistId);
-//        }
-//        model.addAttribute("wishdto", wishdto);
-//        model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
-//        return "addWish";
-//    }
     @GetMapping("/addWish")
     public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
         WishTagDTO wishdto = new WishTagDTO();
@@ -150,7 +140,7 @@ public class WishlistController {
     }
 
     @GetMapping("/showallwishes")
-    public String showAllDTOWishes(@RequestParam int userId, Model model) {
+    public String showAllDTOWishes(@RequestParam int userId, Model model) throws SuperheroException {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistByUserId(userId);
         System.out.println(userWishlistDTO);
         model.addAttribute("userWishlistDTO", userWishlistDTO);

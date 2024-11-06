@@ -1,5 +1,6 @@
 package org.example.wishlist.repositiory;
 
+import org.example.wishlist.SuperheroException;
 import org.example.wishlist.model.Tag;
 import org.example.wishlist.model.User;
 import org.example.wishlist.model.Role;
@@ -304,9 +305,10 @@ public class WishlistRepository implements IWishlistRepository {
 
     @Override
     public void editWish(int wish_id, UserWishlistDTO uw, WishTagDTO w) {
-        if (uw.getRole_id().equals(2)){
+        if (uw.getRole_id().equals(2)) {
 
-        };
+        }
+        ;
 
 
     }
@@ -355,7 +357,7 @@ public class WishlistRepository implements IWishlistRepository {
     }
 
     @Override
-    public UserWishlistDTO getUserwishlistByUserId(int user_id) {
+    public UserWishlistDTO getUserwishlistByUserId(int user_id) throws SuperheroException {
         String sqlString = "SELECT t.wishlist_name, t.wishlist_id, t.user_id, t.role_id, r.role_name, u.name " +
                 "FROM wishlist t " +
                 "JOIN role r ON r.role_id = t.role_id " +
@@ -407,12 +409,10 @@ public class WishlistRepository implements IWishlistRepository {
             }
 
         } catch (SQLException e) {
-            logger.error("SQL exception occurred", e);
+            throw new SuperheroException("Something wrong with query");
         }
-
         return userWishlistDTO;
     }
-
 
     @Override
     public String getRoleNameById(int role_id) {
