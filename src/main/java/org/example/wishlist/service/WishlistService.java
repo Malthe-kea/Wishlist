@@ -1,6 +1,7 @@
 package org.example.wishlist.service;
 
 
+import org.example.wishlist.SuperheroException;
 import org.example.wishlist.model.*;
 
 import org.example.wishlist.model.UserWishlistDTO;
@@ -33,7 +34,7 @@ public class WishlistService {
         return wishlistRepository.getAllUsers();
     }
 
-    public UserWishlistDTO getUserwishlistByUserId(int user_id) {
+    public UserWishlistDTO getUserwishlistByUserId(int user_id) throws SuperheroException {
         return wishlistRepository.getUserwishlistByUserId(user_id);
     }
 
