@@ -73,19 +73,6 @@ public class WishlistController {
         return "createUser";
     }
 
-    //    @GetMapping("/addWish")
-//    public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
-//        WishTagDTO wishdto = new WishTagDTO();
-//        if (wishlistId != null) {
-//            wishdto.setWishlist_id(wishlistId);
-//        } else {
-//            int defaultWishlistId = 1; //skal slettes senere
-//            wishdto.setWishlist_id(defaultWishlistId);
-//        }
-//        model.addAttribute("wishdto", wishdto);
-//        model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
-//        return "addWish";
-//    }
     @GetMapping("/addWish")
     public String addWish(@RequestParam(required = true) Integer wishlist_id, Model model) {
         WishTagDTO wishdto = new WishTagDTO();
