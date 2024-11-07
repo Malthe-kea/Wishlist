@@ -129,70 +129,72 @@ button:hover {
     background-color: #45a049; /* Mørkere grøn ved hover */
 
 
-/* Share container styling */
-.share-container {
-    background-color: #f9f9ff;
-    color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    width: 80%;
-    max-width: 500px;
-}
+    /* Share container styling */
 
-.share-container p {
-    color: #007b9e;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 12px;
-}
+    .share-container {
+        background-color: #f9f9ff;
+        color: #333;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        width: 80%;
+        max-width: 500px;
+    }
 
-.share-container input[type="text"] {
-    border: 1px solid #007b9e;
-    border-radius: 5px;
-    padding: 10px;
-    width: 70%;
-    font-size: 1rem;
-    color: #333;
-    background-color: #ffffff;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-right: 10px;
-}
+    .share-container p {
+        color: #007b9e;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
 
-.share-container input[type="text"]:focus {
-    outline: none;
-    border-color: #007b9e;
-    box-shadow: 0 0 5px rgba(0, 123, 158, 0.3);
-}
+    .share-container input[type="text"] {
+        border: 1px solid #007b9e;
+        border-radius: 5px;
+        padding: 10px;
+        width: 70%;
+        font-size: 1rem;
+        color: #333;
+        background-color: #ffffff;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-right: 10px;
+    }
 
-.share-container button {
-    background-color: #007b9e;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s, transform 0.2s;
-}
+    .share-container input[type="text"]:focus {
+        outline: none;
+        border-color: #007b9e;
+        box-shadow: 0 0 5px rgba(0, 123, 158, 0.3);
+    }
 
-.share-container button:hover {
-    background-color: #005f7e;
-    transform: translateY(-2px);
-}
+    .share-container button {
+        background-color: #007b9e;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.2s;
+    }
 
-.share-container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    .share-container button:hover {
+        background-color: #005f7e;
+        transform: translateY(-2px);
+    }
 
-.share-container .button-container {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
+    .share-container form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
+    .share-container .button-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 15px;
+
+    }
 }
