@@ -114,6 +114,21 @@ button:hover {
     font-weight: bold;
 }
 
+.btn-edit {
+    background-color: #4CAF50; /* Grøn baggrundsfarve */
+    color: white; /* Hvid tekstfarve */
+    border: none; /* Ingen kant */
+    padding: 10px 20px; /* Indvendig polstring */
+    font-size: 16px; /* Tekststørrelse */
+    cursor: pointer; /* Musen bliver til en hånd, når man holder over knappen */
+    border-radius: 5px; /* Afrundede kanter */
+    transition: background-color 0.3s ease; /* Blød overgang for farveændring */
+}
+
+.btn-edit:hover {
+    background-color: #45a049; /* Mørkere grøn ved hover */
+
+
 /* Share container styling */
 .share-container {
     background-color: #f9f9ff;
@@ -179,4 +194,5 @@ button:hover {
     gap: 10px;
     justify-content: center;
     margin-top: 15px;
+
 }
