@@ -1,9 +1,8 @@
-/* stylesheet.css */
-
+/* Global styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: lightblue;
-    color: #fff;
+    background-color: #b3d9f2;
+    color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,7 +16,7 @@ header {
     width: 100%;
     text-align: center;
     background-color: transparent;
-    color: #fff;
+    color: #ffffff;
     margin: 20px 0;
 }
 
@@ -26,14 +25,15 @@ h1 {
     margin: 0;
 }
 
+/* Main container */
 main {
-    position: relative; /* Gør det muligt at placere knappen i højre hjørne */
+    position: relative;
     max-width: 800px;
     width: 90%;
     background-color: #ffffff;
     color: #333;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -41,6 +41,7 @@ main {
     text-align: left;
 }
 
+/* Wishlist styling */
 .wishlist {
     list-style: none;
     padding: 0;
@@ -49,67 +50,133 @@ main {
 }
 
 .wish-item {
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid #e0e0e0;
     padding: 15px 0;
 }
 
 .wish-item h2 {
-    color: #800080;
+    color: #005f7e; /* Mørkere blå til titler */
     font-size: 1.5rem;
     margin: 0 0 5px;
 }
 
+/* Tags styling */
 .tags {
     margin-top: 10px;
 }
 
 .tag span {
-    background-color: lightblue;
-    color: #fff;
+    background-color: #74e3ff; /* Lyseblå baggrund til tags */
+    color: #333;
     padding: 5px 10px;
     border-radius: 15px;
     margin-right: 5px;
     display: inline-block;
 }
 
-.add-wish {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
-
+/* Button styling */
 button {
-    background-color: lightcoral;
+    background-color: #ff6b6b; /* Koralrød farve til knapper */
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
-    background-color: lightpink;
+    background-color: #ff8787; /* Lysere koralrød ved hover */
+    transform: translateY(-2px); /* Let løft for interaktivt udseende */
 }
+
+/* Special button styling */
 .btn {
     display: inline-block;
-    background-color: #f44336; /* Red background */
-    color: white; /* White text */
-    font-size: 16px; /* Adjust font size as needed */
+    background-color: #f44336; /* Rød baggrund til særlige knapper */
+    color: white;
+    font-size: 1rem;
     border: none;
-    border-radius: 4px; /* Rounded corners */
-    padding: 10px 15px; /* Padding */
+    border-radius: 4px;
+    padding: 10px 15px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Hover effect */
 .btn:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+    background-color: #d32f2f; /* Mørkere rød ved hover */
+    transform: translateY(-2px);
 }
 
-/* Centering the cross and making it bold */
 .btn::before {
     content: "✖";
     font-weight: bold;
+}
+
+/* Share container styling */
+.share-container {
+    background-color: #f9f9ff;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 80%;
+    max-width: 500px;
+}
+
+.share-container p {
+    color: #007b9e;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.share-container input[type="text"] {
+    border: 1px solid #007b9e;
+    border-radius: 5px;
+    padding: 10px;
+    width: 70%;
+    font-size: 1rem;
+    color: #333;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+
+.share-container input[type="text"]:focus {
+    outline: none;
+    border-color: #007b9e;
+    box-shadow: 0 0 5px rgba(0, 123, 158, 0.3);
+}
+
+.share-container button {
+    background-color: #007b9e;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.share-container button:hover {
+    background-color: #005f7e;
+    transform: translateY(-2px);
+}
+
+.share-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.share-container .button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
 }
