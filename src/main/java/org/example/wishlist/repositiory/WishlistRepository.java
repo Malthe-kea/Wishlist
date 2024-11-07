@@ -338,10 +338,9 @@ public class WishlistRepository implements IWishlistRepository {
                 existingTagIds.add(resultSet.getInt("tag_id"));
             }
 
-            // Add new tags that aren't already associated with the wish
             insertTagStatement = connection.prepareStatement(sqlStringTagInsert);
             for (int tagId : w.getTagIds()) {
-                if (!existingTagIds.contains(tagId)) { // Only add tags that are new
+                if (!existingTagIds.contains(tagId)) {
                     insertTagStatement.setInt(1, w.getWish_id());
                     insertTagStatement.setInt(2, tagId);
                     insertTagStatement.addBatch();
@@ -349,10 +348,9 @@ public class WishlistRepository implements IWishlistRepository {
             }
             insertTagStatement.executeBatch();
 
-            // Remove tags that are no longer in the updated tag list
             deleteTagStatement = connection.prepareStatement(sqlStringTagDelete);
             for (int tagId : existingTagIds) {
-                if (!w.getTagIds().contains(tagId)) { // Only remove tags not in the new list
+                if (!w.getTagIds().contains(tagId)) {
                     deleteTagStatement.setInt(1, w.getWish_id());
                     deleteTagStatement.setInt(2, tagId);
                     deleteTagStatement.addBatch();
