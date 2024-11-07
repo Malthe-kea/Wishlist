@@ -58,6 +58,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Wishlist'
-          slot-name: 'Production'
+          slot-name: 'production'
           package: '*.jar'
           
