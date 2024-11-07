@@ -303,17 +303,19 @@ public class WishlistRepository implements IWishlistRepository {
     @Override
     public void editWish(WishTagDTO w, UserWishlistDTO userWishlistDTO) {
         Connection connection = null;
-
         PreparedStatement updateWishStatement = null;
-        PreparedStatement updateTagStatement = null;
+        PreparedStatement selectTagStatement = null;
+        PreparedStatement insertTagStatement = null;
+        PreparedStatement deleteTagStatement = null;
 
         ResultSet resultSet = null;
-        ResultSet resultSet2 = null;
 
         List<Integer> tagIdList = new ArrayList<>();
 
         String sqlStringWish = "UPDATE wish SET wish_name = ?, wish_description = ?, price = ? WHERE wish_id = ? AND user_id = ?";
-        String sqlStringTag = "SELECT t.tag_id, t.tag_name FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
+        String sqlStringTagSelect = "SELECT t.tag_id FROM tag t JOIN wish_tag wt ON t.tag_id = wt.tag_id WHERE wt.wish_id = ?";
+        String sqlStringTagInsert = "INSERT INTO wish_tag (wish_id, tag_id) VALUES (?, ?)";
+        String sqlStringTagDelete = "DELETE FROM wish_tag WHERE wish_id = ? AND tag_id = ?";
 
         try {
             connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim());
@@ -327,13 +329,36 @@ public class WishlistRepository implements IWishlistRepository {
             updateWishStatement.executeUpdate();
 
 
-            updateTagStatement = connection.prepareStatement(sqlStringTag);
-            resultSet2 = updateTagStatement.executeQuery();
+            selectTagStatement = connection.prepareStatement(sqlStringTagSelect);
+            selectTagStatement.setInt(1, w.getWish_id());
+            resultSet = selectTagStatement.executeQuery();
 
-            while (resultSet2.next()) {
-                int tagid = resultSet2.getInt("tag_id");
-                tagIdList.add(tagid);
+            List<Integer> existingTagIds = new ArrayList<>();
+            while (resultSet.next()) {
+                existingTagIds.add(resultSet.getInt("tag_id"));
             }
+
+            // Add new tags that aren't already associated with the wish
+            insertTagStatement = connection.prepareStatement(sqlStringTagInsert);
+            for (int tagId : w.getTagIds()) {
+                if (!existingTagIds.contains(tagId)) { // Only add tags that are new
+                    insertTagStatement.setInt(1, w.getWish_id());
+                    insertTagStatement.setInt(2, tagId);
+                    insertTagStatement.addBatch();
+                }
+            }
+            insertTagStatement.executeBatch();
+
+            // Remove tags that are no longer in the updated tag list
+            deleteTagStatement = connection.prepareStatement(sqlStringTagDelete);
+            for (int tagId : existingTagIds) {
+                if (!w.getTagIds().contains(tagId)) { // Only remove tags not in the new list
+                    deleteTagStatement.setInt(1, w.getWish_id());
+                    deleteTagStatement.setInt(2, tagId);
+                    deleteTagStatement.addBatch();
+                }
+            }
+            deleteTagStatement.executeBatch();
 
         } catch (SQLException e) {
             e.printStackTrace();
