@@ -46,9 +46,12 @@ VALUES('Chair', 'A red chair', 2, 1, 1, 1), ('Lamp', 'Tall floorlamp in black', 
 
 INSERT INTO tag(tag_name)
 VALUES
-    ('saves the ocean'),
-    ('people pleaser'),
-    ('no plastic');
+    ('Blue ocean'),
+    ('Reusable'),
+    ('no plastic'),
+    ('Produced in denmark'),
+    ('Plants a tree'),
+    ('Sustainable colors');
 
 INSERT INTO wish_tag(tag_id, wish_id)
 VALUES(1,1),(2,1),(2,2);
