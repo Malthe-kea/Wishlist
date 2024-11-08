@@ -47,13 +47,19 @@ public class WishlistController {
         return "redirect:/showallwishes?userId=" + userId;
     }
 
+    @GetMapping("/createUser")
+    public String createUser(Model model) {
+        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+        model.addAttribute("userWishlistDTO", userWishlistDTO);
+        return "createUser";
+    }
 
     @PostMapping("/saveCreatedUser")
     public String saveCreatedUser(@ModelAttribute UserWishlistDTO userWishlistDTO, Model model, String name) {
-        wishlistService.createUserAndWishlistDTO(name, userWishlistDTO);
-        // Tilføj en besked til model
+        int userid = wishlistService.createUserAndWishlistDTO(name, userWishlistDTO);
+        int roleId = 1;
         model.addAttribute("message", "Bruger oprettet! Du kan nu logge ind.");
-        return "redirect:/login?userId=" + userWishlistDTO.getUser_id() + "&role=" + userWishlistDTO.getRole_id();
+        return "redirect:/login?userId=" + userid + "&role=" + roleId;
     }
 
     @PostMapping("/login")
@@ -66,15 +72,9 @@ public class WishlistController {
         }
     }
 
-    @GetMapping("/createUser")
-    public String createUser(Model model) {
-        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
-        model.addAttribute("userWishlistDTO", userWishlistDTO);
-        return "createUser";
-    }
     @ExceptionHandler(SuperheroException.class)
     public String handleError(Model model, Exception exception) {
-        model.addAttribute("message",exception.getMessage());
+        model.addAttribute("message", exception.getMessage());
         return "error";
     }
 
@@ -94,7 +94,6 @@ public class WishlistController {
     }
 
 
-
     @GetMapping("/viewSharedWishlist")
     public String viewSharedWishlist(@RequestParam int wishlistId, Model model) {
         UserWishlistDTO userWishlistDTO = wishlistService.getUserwishlistById(wishlistId);
@@ -111,10 +110,10 @@ public class WishlistController {
     }
 
     @GetMapping("/addWish")
-    public String addWish(@RequestParam(required = false) Integer wishlistId, Model model) {
+    public String addWish(@RequestParam(required = true) Integer wishlist_id, Model model) {
         WishTagDTO wishdto = new WishTagDTO();
-        if (wishlistId != null) {
-            wishdto.setWishlist_id(wishlistId);
+        if (wishlist_id != null) {
+            wishdto.setWishlist_id(wishlist_id);
         } else {
             int defaultWishlistId = 1; //skal slettes senere
             wishdto.setWishlist_id(defaultWishlistId);
