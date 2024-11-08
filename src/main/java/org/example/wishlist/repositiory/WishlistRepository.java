@@ -321,8 +321,8 @@ public class WishlistRepository implements IWishlistRepository {
             connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim());
 
             updateWishStatement = connection.prepareStatement(sqlStringWish);
-            updateWishStatement.setString(1,w.getWish_name());
-            updateWishStatement.setString(2,w.getDescription());
+            updateWishStatement.setString(1, w.getWish_name());
+            updateWishStatement.setString(2, w.getDescription());
             updateWishStatement.setInt(3, w.getPrice());
             updateWishStatement.setInt(4, w.getWish_id());
             updateWishStatement.setInt(5, userWishlistDTO.getUser_id());
@@ -486,7 +486,7 @@ public class WishlistRepository implements IWishlistRepository {
     }
 
     @Override
-    public void createUserAndWishlistDTO(String user_name, UserWishlistDTO uw) {
+    public int createUserAndWishlistDTO(String user_name, UserWishlistDTO uw) {
         logger.info("Received role_id: {}", uw.getRole_id());
 
         String sqlInsertUser = "INSERT INTO user (name) VALUES (?)";
@@ -494,6 +494,7 @@ public class WishlistRepository implements IWishlistRepository {
         String sqlInsertUserRole = "INSERT INTO user_role(user_id, role_id) VALUES (?,?)";
 
         Connection con = null;
+        int generatedUserId =-1;
         try {
             con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim());
             con.setAutoCommit(false);
@@ -505,7 +506,7 @@ public class WishlistRepository implements IWishlistRepository {
 
             ResultSet resultSet1 = statement1.getGeneratedKeys();
             if (resultSet1.next()) {
-                int generatedUserId = resultSet1.getInt(1); // Get the generated user_id
+                generatedUserId = resultSet1.getInt(1); // Get the generated user_id
 
                 // Insert ind i user_role table
                 PreparedStatement statement3 = con.prepareStatement(sqlInsertUserRole);
@@ -540,8 +541,7 @@ public class WishlistRepository implements IWishlistRepository {
                 }
             }
         }
-
-
+        return generatedUserId;
     }
 
 }

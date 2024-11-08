@@ -42,8 +42,8 @@ public class WishlistService {
         return wishlistRepository.getUserNameById(userId);
     }
 
-    public void createUserAndWishlistDTO(String user_name, UserWishlistDTO uw) {
-        wishlistRepository.createUserAndWishlistDTO(user_name, uw);
+    public int createUserAndWishlistDTO(String user_name, UserWishlistDTO uw) {
+       return wishlistRepository.createUserAndWishlistDTO(user_name, uw);
     }
 
     public List<Role> getAllRoles() {

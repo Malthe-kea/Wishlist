@@ -11,7 +11,7 @@ public interface IWishlistRepository {
 
     public UserWishlistDTO getUserwishlistByWishlistId(int wishlist_id);
 
-    public void createUserAndWishlistDTO(String user_name, UserWishlistDTO uw);
+    public int createUserAndWishlistDTO(String user_name, UserWishlistDTO uw);
 
     //READ
     public List<User> getAllUsers();
