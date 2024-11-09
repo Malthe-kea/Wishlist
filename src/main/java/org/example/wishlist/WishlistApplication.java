@@ -7,7 +7,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class WishlistApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext run = SpringApplication.run(WishlistApplication.class, args);
+		//ConfigurableApplicationContext run = SpringApplication.run(WishlistApplication.class, args);
+		SpringApplication.run(WishlistApplication.class, args);
 	}
 
 }
