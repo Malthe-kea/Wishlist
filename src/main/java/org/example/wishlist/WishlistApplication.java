@@ -8,7 +8,6 @@ public class WishlistApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext run = SpringApplication.run(WishlistApplication.class, args);
-		System.out.println(run.getBean("dataSource"));
 	}
 
 }
