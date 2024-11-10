@@ -110,7 +110,7 @@ public class WishlistController {
     }
 
     @GetMapping("/addWish")
-    public String addWish(@RequestParam(required = true) Integer wishlist_id, Model model) {
+    public String addWish(@RequestParam Integer wishlist_id, Model model) {
         WishTagDTO wishdto = new WishTagDTO();
         if (wishlist_id != null) {
             wishdto.setWishlist_id(wishlist_id);
@@ -172,9 +172,6 @@ public class WishlistController {
         model.addAttribute("userWishlistDTO", u);
         model.addAttribute("userId", u.getUser_id());
 
-        if (wishTagDTO == null) {
-            throw new RuntimeException("wish is null");
-        }
         return "delete-wish";
     }
 
