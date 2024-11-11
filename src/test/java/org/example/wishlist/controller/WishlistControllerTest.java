@@ -54,4 +54,27 @@ class WishlistControllerTest {
         verify(wishlistService).getUserwishlistById(userId);
         assertEquals("redirect:/showallwishes?userId=" + userId, result);
     }
+
+    @Test
+    void editWish() {
+        //ARRANGE
+        int wishTagDTOToEditID = 1;
+        int userIdToEdit = 2;
+
+        WishTagDTO wishTagDTOToEdit = new WishTagDTO();
+        wishTagDTOToEdit.setWish_id(wishTagDTOToEditID);
+        wishTagDTOToEdit.setWishlist_id(userIdToEdit);
+
+        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+        userWishlistDTO.setUser_id(userIdToEdit);
+
+        when(wishlistService.getWishById(wishTagDTOToEditID)).thenReturn(wishTagDTOToEdit);
+        when(wishlistService.getUserwishlistById(userIdToEdit)).thenReturn(userWishlistDTO);
+
+        //ACT
+        String result = wishlistController.editWish(wishTagDTOToEdit);
+
+        //ASSERT
+        assertEquals("redirect:/showallwishes?userId=" + userIdToEdit, result);
+    }
 }
