@@ -3,7 +3,6 @@ package org.example.wishlist.model;
 public class Wish {
     private String wish_name;
     private String description;
-    //TODO ret til doublea
     private int price;
     private int wishlist_id;
     private int role_id;

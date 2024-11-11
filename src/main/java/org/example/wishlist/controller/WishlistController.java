@@ -145,7 +145,7 @@ public class WishlistController {
         return "show-wishlist";
     }
 
-    @PostMapping("/{wish_id}/show")
+    @GetMapping("/{wish_id}/show")
     public String showWish(@PathVariable int wish_id, Model model) {
         WishTagDTO wishTagDTO = wishlistService.getWishById(wish_id);
         if (wishTagDTO == null) {
@@ -157,7 +157,6 @@ public class WishlistController {
         UserWishlistDTO u = wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id());
         model.addAttribute("userWishlistDTO", u);
         model.addAttribute("userId", u.getUser_id());
-
 
         return "show-wish";
     }
@@ -185,6 +184,7 @@ public class WishlistController {
 
     @GetMapping("/{wish_id}/edit")
     public String editWish(@PathVariable int wish_id, Model model) {
+
         WishTagDTO wishTagDTO = wishlistService.getWishById(wish_id);
         model.addAttribute("wishTagDTO", wishTagDTO);
         model.addAttribute("avaliableTags", wishlistService.getAvaliableTags());
@@ -192,7 +192,6 @@ public class WishlistController {
         model.addAttribute("userWishlistDTO", u);
         model.addAttribute("userId", u.getUser_id());
         model.addAttribute("userWishlistDTOId", wishlistService.getUserwishlistById(wishTagDTO.getWishlist_id()));
-
         return "edit-wish";
     }
 

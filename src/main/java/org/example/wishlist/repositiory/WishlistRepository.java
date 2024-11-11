@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
@@ -303,7 +302,6 @@ public class WishlistRepository implements IWishlistRepository {
     @Override
     public void editWish(WishTagDTO w, UserWishlistDTO userWishlistDTO) {
 
-        //TESTESTSETSETSETSE
         Connection connection = null;
         PreparedStatement updateWishStatement = null;
         PreparedStatement selectTagStatement = null;
@@ -545,5 +543,4 @@ public class WishlistRepository implements IWishlistRepository {
         }
         return generatedUserId;
     }
-
 }
