@@ -1,6 +1,7 @@
 package org.example.wishlist.controller;
 
 import org.example.wishlist.SuperheroException;
+import org.example.wishlist.model.User;
 import org.example.wishlist.model.UserWishlistDTO;
 import org.example.wishlist.model.WishTagDTO;
 import org.example.wishlist.service.WishlistService;
@@ -202,7 +203,19 @@ public class WishlistController {
         wishlistService.editDTOwish(wishTagDTO, u);
 
         return "redirect:/showallwishes?userId=" + u.getUser_id();
-
     }
+
+    @GetMapping("/deleteuser")
+    public String deleteUser(Model model, int userId) {
+        model.addAttribute("userId", userId);
+        return "delete-user";
+    }
+
+    @GetMapping("/deleteuserconfirmation")
+    public String deleteUserConfirmation(int userId){
+        wishlistService.deleteUserFromUserId(userId);
+        return "redirect:/";
+    }
+
 
 }
