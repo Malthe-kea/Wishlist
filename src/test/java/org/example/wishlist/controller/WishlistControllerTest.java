@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -76,5 +78,25 @@ class WishlistControllerTest {
 
         //ASSERT
         assertEquals("redirect:/showallwishes?userId=" + userIdToEdit, result);
+    }
+    @Test
+    void addWish() {
+        //Arrange
+        int wishlistId = 1;
+
+        WishTagDTO wishTagDTO = new WishTagDTO();
+        wishTagDTO.setWish_id(wishlistId);
+        wishTagDTO.setWishlist_id(wishlistId);
+
+        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+        userWishlistDTO.setUser_id(1);
+
+        when(wishlistService.getAvaliableTags()).thenReturn(new ArrayList<>());
+        //Act
+        String result = wishlistController.addWish(wishlistId, model);
+
+        //Assert
+        verify(wishlistService).getAvaliableTags();
+        assertEquals("addWish", result);
     }
 }
