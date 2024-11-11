@@ -26,7 +26,6 @@ public interface IWishlistRepository {
 
     List<WishTagDTO> getAllDTOWishes();
 
-    public List<Wish> getWishlistById(int wishlist_id);
 
     List<Tag> getAvaliableTags();//se alle mulige tags
 
@@ -41,7 +40,6 @@ public interface IWishlistRepository {
     //DELETE
     void deleteDTOWish(int wish_id); //slet et ønske
 
-    void giveWish(int wish_id); //giv et ønske
 
 
 }

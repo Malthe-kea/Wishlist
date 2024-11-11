@@ -230,14 +230,6 @@ public class WishlistRepository implements IWishlistRepository {
         }
         return wishes;
     }
-
-
-    @Override
-    public List<Wish> getWishlistById(int wishlist_id) {
-        return List.of();
-    }
-
-
     @Override
     public List<Tag> getTags(int wish_id) {
         List<Tag> tags = new ArrayList<>();
@@ -399,11 +391,6 @@ public class WishlistRepository implements IWishlistRepository {
 
         }
         return user_name;
-    }
-
-    @Override
-    public void giveWish(int wish_id) {
-
     }
 
     @Override
