@@ -17,7 +17,7 @@
         <li th:each="wish : ${userWishlistDTO.wishes}" class="wish-item">
             <h2 th:text="'Wish: ' + ${wish.wish_name}">Wish name</h2>
 
-            <form th:action="@{'/' + ${wish.wish_id} + '/show'}" method="post" style="display:inline;">
+            <form th:action="@{'/' + ${wish.wish_id} + '/show'}" method="get" style="display:inline;">
                 <button type="submit">Show wish</button>
             </form>
             <form th:action="@{'/' + ${wish.wish_id} + '/delete'}" method="get" style="display:inline;">
