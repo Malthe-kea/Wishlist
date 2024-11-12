@@ -82,4 +82,8 @@ public class WishlistService {
     public void editDTOwish(WishTagDTO w, UserWishlistDTO userWishlistDTO) {
         wishlistRepository.editWish( w, userWishlistDTO);
     }
+    public void deleteUserFromUserId(int user_id) {
+       wishlistRepository.deleteUserFromUserId(user_id);
+    }
+
 }

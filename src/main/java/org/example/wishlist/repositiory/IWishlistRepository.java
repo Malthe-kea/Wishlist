@@ -40,6 +40,7 @@ public interface IWishlistRepository {
     //DELETE
     void deleteDTOWish(int wish_id); //slet et ønske
 
+    void deleteUserFromUserId(int user_id);
 
 
 }

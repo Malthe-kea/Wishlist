@@ -25,6 +25,18 @@
 <form th:action="@{/createUser}" method="get">
     <button type="submit">Create User</button>
 </form>
+<h1>List of Users</h1>
+<h1>Delete a User</h1>
+<form th:action="@{/deleteuser}" method="get" style="display:inline;">
+    <label for="user_id">Select a user to delete:</label>
+    <select name="userId" id="user_id" required>
+        <option value="" disabled selected>Select a user</option>
+        <option th:each="user : ${users}"
+                th:value="${user.user_id}"
+                th:text="${user.name}">User Name</option>
+    </select>
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
 </body>
 
 </html>
