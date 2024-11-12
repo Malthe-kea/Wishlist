@@ -230,6 +230,7 @@ public class WishlistRepository implements IWishlistRepository {
         }
         return wishes;
     }
+
     @Override
     public List<Tag> getTags(int wish_id) {
         List<Tag> tags = new ArrayList<>();
@@ -376,12 +377,22 @@ public class WishlistRepository implements IWishlistRepository {
     }
 
     @Override
-    public void deleteUserFromUserId(int user_id){
-        String sqlStringWishlist= "DELETE FROM wishlist WHERE user_id = ?";
-        String sqlStringUser_Role= "DELETE FROM user_role WHERE user_id = ?";
+    public void deleteUserFromUserId(int user_id) {
+        String sqlStringWishTag = "DELETE FROM wish_tag WHERE wish_id IN (SELECT wish_id FROM wish WHERE user_id = ?)";
+        String sqlStringWish = "DELETE FROM wish WHERE user_id = ?";
+        String sqlStringWishlist = "DELETE FROM wishlist WHERE user_id = ?";
+        String sqlStringUser_Role = "DELETE FROM user_role WHERE user_id = ?";
         String sqlStringUser = "DELETE FROM user WHERE user_id = ?";
 
-        try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())){
+        try (Connection connection = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
+            PreparedStatement preparedStatementWishTag = connection.prepareStatement(sqlStringWishTag);
+            preparedStatementWishTag.setInt(1, user_id);
+            preparedStatementWishTag.executeUpdate();
+
+            PreparedStatement preparedStatementWish = connection.prepareStatement(sqlStringWish);
+            preparedStatementWish.setInt(1, user_id);
+            preparedStatementWish.executeUpdate();
+
             PreparedStatement preparedStatementWishlist = connection.prepareStatement(sqlStringWishlist);
             preparedStatementWishlist.setInt(1, user_id);
             preparedStatementWishlist.executeUpdate();
@@ -393,7 +404,6 @@ public class WishlistRepository implements IWishlistRepository {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlStringUser);
             preparedStatement.setInt(1, user_id);
             preparedStatement.executeUpdate();
-
 
         } catch (SQLException e) {
             logger.error("SQL exception occured", e);
@@ -507,7 +517,7 @@ public class WishlistRepository implements IWishlistRepository {
         String sqlInsertUserRole = "INSERT INTO user_role(user_id, role_id) VALUES (?,?)";
 
         Connection con = null;
-        int generatedUserId =-1;
+        int generatedUserId = -1;
         try {
             con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim());
             con.setAutoCommit(false);

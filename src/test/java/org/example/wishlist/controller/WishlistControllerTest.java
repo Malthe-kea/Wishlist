@@ -99,4 +99,21 @@ class WishlistControllerTest {
         verify(wishlistService).getAvaliableTags();
         assertEquals("addWish", result);
     }
+
+    @Test
+    void deleteUserConfirmation() {
+        int user_id = 1;
+
+        UserWishlistDTO userWishlistDTO = new UserWishlistDTO();
+        userWishlistDTO.setUser_id(user_id);
+
+        when(wishlistService.getUserwishlistById(user_id)).thenReturn(userWishlistDTO);
+        String result = wishlistController.deleteUserConfirmation(user_id);
+
+        verify(wishlistService).deleteUserFromUserId(user_id);
+        assertEquals("redirect:/", result);
+
+
+
+    }
 }

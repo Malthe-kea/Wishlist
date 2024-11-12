@@ -211,8 +211,9 @@ public class WishlistController {
         return "delete-user";
     }
 
-    @GetMapping("/deleteuserconfirmation")
+    @PostMapping("/deleteuserconfirmation")
     public String deleteUserConfirmation(int userId){
+        //TODO skal også have et wishlist_ID og måske også et wish_id. 
         wishlistService.deleteUserFromUserId(userId);
         return "redirect:/";
     }
