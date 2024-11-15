@@ -411,6 +411,7 @@ public class WishlistRepository implements IWishlistRepository {
     }
 
 
+    //FREMLÆGGELSE
     @Override
     public String getUserNameById(int userId) {
         String sql = "SELECT name FROM user WHERE user_id=?";
