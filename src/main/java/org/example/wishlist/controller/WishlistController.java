@@ -1,7 +1,6 @@
 package org.example.wishlist.controller;
 
 import org.example.wishlist.SuperheroException;
-import org.example.wishlist.model.User;
 import org.example.wishlist.model.UserWishlistDTO;
 import org.example.wishlist.model.WishTagDTO;
 import org.example.wishlist.service.WishlistService;
@@ -46,6 +45,15 @@ public class WishlistController {
         model.addAttribute("userId", userId);
         return "redirect:/showallwishes?userId=" + userId;
     }
+    @PostMapping("/login")
+    public String loginUser(@RequestParam int userId, @RequestParam int role_id, Model model) {
+        String roleName = wishlistService.getRoleNameById(role_id);
+        if (roleName.equals("giftwisher")) {
+            return "redirect:/showallwishes?userId=" + userId;
+        } else {
+            return "redirect:/showallwishesAsGiftgiver?userId=" + userId;
+        }
+    }
 
     @GetMapping("/createUser")
     public String createUser(Model model) {
@@ -62,15 +70,6 @@ public class WishlistController {
         return "redirect:/login?userId=" + userid + "&role=" + roleId;
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam int userId, @RequestParam int role_id, Model model) {
-        String roleName = wishlistService.getRoleNameById(role_id);
-        if (roleName.equals("giftwisher")) {
-            return "redirect:/showallwishes?userId=" + userId;
-        } else {
-            return "redirect:/showallwishesAsGiftgiver?userId=" + userId;
-        }
-    }
 
     @ExceptionHandler(SuperheroException.class)
     public String handleError(Model model, Exception exception) {
@@ -115,7 +114,7 @@ public class WishlistController {
         if (wishlist_id != null) {
             wishdto.setWishlist_id(wishlist_id);
         } else {
-            int defaultWishlistId = 1; //skal slettes senere
+            int defaultWishlistId = 1;
             wishdto.setWishlist_id(defaultWishlistId);
         }
         model.addAttribute("wishdto", wishdto);

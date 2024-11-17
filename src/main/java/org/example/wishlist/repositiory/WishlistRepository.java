@@ -150,17 +150,17 @@ public class WishlistRepository implements IWishlistRepository {
 
 
     @Override
-    public void addWish(WishTagDTO w, UserWishlistDTO uw) {
+    public void addWish(WishTagDTO w, UserWishlistDTO uw) { //addwish
         if (uw == null || uw.getRole_id() == null) {
             logger.error("UserWishlistDTO or role_id is null. Cannot proceed with addWish.");
             throw new IllegalArgumentException("UserWishlistDTO or role_id cannot be null.");
         }
-        String sqlAddWish = "INSERT INTO wish(wish_name, wish_description, price, wishlist_id, role_id, user_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlAddWish = "INSERT INTO wish(wish_name, wish_description, price, wishlist_id, role_id, user_id) VALUES (?, ?, ?, ?, ?, ?)"; //sql forespørgsel til indsætning i wish
         String sqlAddTag = "INSERT INTO wish_tag(tag_id, wish_id) VALUES (?, ?)";
 
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
 
-            try (PreparedStatement statement = con.prepareStatement(sqlAddWish, Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement statement = con.prepareStatement(sqlAddWish, Statement.RETURN_GENERATED_KEYS)) { //da forespørgel tager parametre bruger vi preparedstatement
                 statement.setString(1, w.getWish_name());
                 statement.setString(2, w.getDescription());
                 statement.setDouble(3, w.getPrice());
@@ -170,13 +170,13 @@ public class WishlistRepository implements IWishlistRepository {
 
                 statement.executeUpdate();
 
-                ResultSet generatedKeys = statement.getGeneratedKeys();
+                ResultSet generatedKeys = statement.getGeneratedKeys(); //retuner generated key
                 if (generatedKeys.next()) {
                     int wish_id = generatedKeys.getInt(1);
 
                     try (PreparedStatement tagStatement = con.prepareStatement(sqlAddTag)) {
-                        for (int tag_id : w.getTagIds()) {
-                            tagStatement.setInt(1, tag_id);
+                        for (int tag_id : w.getTagIds()) { //for hvert tagid i listen af wishtagdto tagid's
+                            tagStatement.setInt(1, tag_id); //sættes en ny række i wish_tag
                             tagStatement.setInt(2, wish_id);
                             tagStatement.executeUpdate();
                         }
