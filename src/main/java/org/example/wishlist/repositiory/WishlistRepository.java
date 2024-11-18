@@ -160,7 +160,7 @@ public class WishlistRepository implements IWishlistRepository {
 
         try (Connection con = DriverManager.getConnection(dbUrl.trim(), username.trim(), password.trim())) {
 
-            try (PreparedStatement statement = con.prepareStatement(sqlAddWish, Statement.RETURN_GENERATED_KEYS)) { //da forespørgel tager parametre bruger vi preparedstatement
+            PreparedStatement statement = con.prepareStatement(sqlAddWish, Statement.RETURN_GENERATED_KEYS);  //da forespørgel tager parametre bruger vi preparedstatement
                 statement.setString(1, w.getWish_name());
                 statement.setString(2, w.getDescription());
                 statement.setDouble(3, w.getPrice());
@@ -181,7 +181,6 @@ public class WishlistRepository implements IWishlistRepository {
                             tagStatement.executeUpdate();
                         }
                     }
-                }
             }
         } catch (SQLException e) {
             logger.error("SQL exception occurred", e);
